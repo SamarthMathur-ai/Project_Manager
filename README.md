@@ -15,7 +15,7 @@ Here are the exact terminal commands you will use to download the code, save you
 
 ```bash
 # 1. Download the project (First time only)
-git clone [https://github.com/SamarthMathur-ai/Project_Manager.git](https://github.com/SamarthMathur-ai/Project_Manager.git)
+git clone https://github.com/SamarthMathur-ai/Project_Manager.git
 
 # 2. Move into the project folder
 cd Project_Manager
@@ -31,5 +31,13 @@ git add .
 # 5. Save a snapshot of your work
 git commit -m "Add a brief description of what you changed"
 
-# 6. Upload your changes to GitHub
+# 6. Get any new updates and apply your local changes on top
+git pull origin main --rebase
+
+# 7. Upload your changes to GitHub
 git push origin main
+```
+
+### Daily Log (Please do date and bulleted list)
+
+**12-06-2026**
