@@ -28,6 +28,9 @@ git pull origin main
 # 4. Stage all your changed files
 git add .
 
+#4.5. To check status
+git status
+
 # 5. Save a snapshot of your work
 git commit -m "Add a brief description of what you changed"
 
