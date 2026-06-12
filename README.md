@@ -38,6 +38,37 @@ git pull origin main --rebase
 git push origin main
 ```
 
+## 📁 Project Structure
+
+This project uses a unified structure. We keep our frontend and backend code in separate folders for organization, but they share a **single, common `package.json`** at the root of the project to make installing dependencies incredibly easy.
+
+```text
+Project_Manager/
+├── .gitignore                  # Keeps secret keys and big folders out of GitHub
+├── README.md                   # The guide you are reading right now!
+├── package.json                # 📦 The SINGLE shared list of all dependencies
+├── vite.config.js              # Frontend build configurations
+├── .env                        # Secret keys and database passwords (NEVER uploaded)
+│
+├── client/                     # ⚛️ FRONTEND (React)
+│   ├── index.html              # Main HTML file
+│   ├── src/
+│   │   ├── assets/             # Images and global styling (CSS)
+│   │   ├── components/         # Reusable UI parts (Buttons, TaskCards, Navbar)
+│   │   ├── pages/              # Full-screen views (Dashboard, Login, Settings)
+│   │   ├── services/           # Logic for sending requests to the backend
+│   │   ├── App.jsx             # Main router that controls which page shows up
+│   │   └── main.jsx            # Connects React to the browser
+│
+└── server/                     # ⚙️ BACKEND (Node.js / Express)
+    ├── config/                 # Database connection setup
+    ├── models/                 # Database blueprints (User, Task)
+    ├── controllers/            # Core logic (creating tasks, deleting projects)
+    ├── routes/                 # API URLs (e.g., /api/tasks)
+    ├── middleware/             # Security checks (verifying logged-in users)
+    └── server.js               # The main file that boots up the backend
+```
+
 ### Daily Log (Please do date and bulleted list)
 
 **12-06-2026**
