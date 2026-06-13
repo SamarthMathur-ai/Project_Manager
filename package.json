@@ -1,5 +1,26 @@
 {
   "dependencies": {
+    "bcrypt": "^6.0.0",
+    "express": "^5.2.1",
     "mysql2": "^3.22.5"
-  }
+  },
+  "name": "project_manager",
+  "version": "1.0.0",
+  "description": "To build a full stack project manager website so that a user can manage his/her projects without any effort.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SamarthMathur-ai/Project_Manager.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SamarthMathur-ai/Project_Manager/issues"
+  },
+  "homepage": "https://github.com/SamarthMathur-ai/Project_Manager#readme"
 }
