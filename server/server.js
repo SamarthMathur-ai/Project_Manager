@@ -24,80 +24,23 @@ const posts = [
 
 const users = []
 
-app.get('/posts',authenticateToken, (req,res)=> {
-    res.json(posts.filter(post => post.username === req.username))
-})
-
-app.post('/users', async (req, res)=>{// * bcrypt is an asynchronous library.
-    try {
-       // const salt = await bcrypt.genSalt()// ! we can add round here the defaut is 10 the larger the numver the longer it will take to generate the hash but the more secure it will be 20 takes dauys
-      //  const hashedPassword = await bcrypt.hash(req.body.password,salt)
-        // *Shorter version
-        const hashedPassword = await bcrypt.hash(req.body.password, 10);
-        // console.log(salt);
-        console.log(hashedPassword);
-        
-        const sql = `
-            INSERT INTO user (username, email, password, name)
-            VALUES(?,?,?,?)
-        `;
-
-        await db.query(sql, [
-            req.body.username,
-            req.body.email,
-            hashedPassword,
-            req.body.name
-        ])
-
-
-        res.status(201).send()
-    } catch(err) {
-        console.log(err);
-        res.status(500).json({
-            error: err.message
-        })
-    }
-    // ! by this code everytime we send the post request we get a differnt hsh password because of the salt
-})
-
-
-app.post('/users/login',async (req, res) => {
-    
+app.get('/posts',authenticateToken, async (req,res)=> {
     try {
         const sql = `
             SELECT * FROM user WHERE username = ?;
-        `;
-        const [rows] = await db.query(sql,[
-          req.body.username  
-        ])
-        const user = rows[0];
-        if(user == null) {
-            return res.status(400).send('Cannot find user');
-        }
-        if( await bcrypt.compare(req.body.password, user.password)) {
-            // ! only when the authentication is done do we authorize the user
-            const payload = {
-                id: user.id,
-                username: user.username
-            }
-            // * Creating JSON web token
-            const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET)// * sign take our payload
-            // * AS WE don't have any way to refresh our token yet we don't wanna add any expiration date.
-            res.json({accessToken: accessToken});
-        } else {
-            res.send("Not allowed")
-        }
-
-       
-
-    } catch(err) {
-        console.log(err);
+        `
+        const [users] = await db.query(sql,[
+            req.user.username // ! here req is the middleware authtoken only.
+        ]);
+        console.log(users);
+        res.status(201).send(users);
+    } catch (error) {
+        console.log(error);
         res.status(500).json({
-            error: err.message
+            error:error.message
         })
     }
 })
-
 
 
 // * MIDDLEWARE
