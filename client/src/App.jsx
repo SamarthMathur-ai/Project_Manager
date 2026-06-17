@@ -1,9 +1,28 @@
-function App(){
-  return(
-    <div>
-      <h1>Project_Manager</h1>
-      <p>Frontend setup successful!</p>
-    </div>
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+
+function App() {
+
+  return (
+    <BrowserRouter>
+
+      <Routes>
+
+        <Route
+          path="/"
+          element={<Login />}
+        />
+
+        <Route
+          path="/signup"
+          element={<Signup />}
+        />
+
+      </Routes>
+
+    </BrowserRouter>
   );
 }
+
 export default App;
