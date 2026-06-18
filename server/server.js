@@ -7,6 +7,7 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import authRoutes from './routes/usersRoute.js'
+import teamMembersRoutes from './routes/teamMembersRoute.js'
 import authenticateToken from './middleware/authMiddleware.js';
 
 dotenv.config({ path: './.env' });
@@ -18,6 +19,8 @@ app.use(express.json());
 app.use('/auth', authRoutes);
 
 // ! public routes
+
+app.use('/api/teamMemberPage', authenticateToken, teamMembersRoutes);
 // app.use('/api/projects', authenticateToken, projectRoutes);
 app.get('/api/projects', authenticateToken, (req, res) => {
     // If the code reaches this line, the token is perfectly valid!
