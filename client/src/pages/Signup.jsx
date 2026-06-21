@@ -1,10 +1,12 @@
 import AuthLayout from "../components/AuthLayout";
 import InputField from "../components/InputField";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Signup() {
+    const navigate = useNavigate();
     return (
-        <AuthLayout>
+        
 
             <div className="form-container">
 
@@ -30,7 +32,7 @@ function Signup() {
                     placeholder="Password"
                 />
 
-                <button className="btn">
+                <button className="btn" onClick={() => navigate("/dashboard")}>
                     Sign Up
                 </button>
 
@@ -41,7 +43,7 @@ function Signup() {
 
             </div>
 
-        </AuthLayout>
+       
     );
 }
 

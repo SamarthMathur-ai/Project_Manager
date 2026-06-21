@@ -1,37 +1,36 @@
-import AuthLayout from "../components/AuthLayout";
 import InputField from "../components/InputField";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+    const navigate = useNavigate();
     return (
-        <AuthLayout>
+        <div className="form-container">
 
-            <div className="form-container">
+            <h1>Login</h1>
 
-                <h1>Login</h1>
+            <InputField
+                type="text"
+                placeholder="Username"
+            />
 
-                <InputField
-                    type="text"
-                    placeholder="Username"
-                />
+            <InputField
+                type="password"
+                placeholder="Password"
+            />
 
-                <InputField
-                    type="password"
-                    placeholder="Password"
-                />
+            <button className="btn" onClick={() => navigate("/dashboard")}>
+                Login
+            </button>
 
-                <button className="btn">
-                    Login
-                </button>
+             
 
-                <p>
-                    Don't have an account?
-                    <Link to="/signup"> Sign Up</Link>
-                </p>
+            <p>
+                Don't have an account?
+                <Link to="/signup"> Sign Up</Link>
+            </p>
 
-            </div>
-
-        </AuthLayout>
+        </div>
     );
 }
 

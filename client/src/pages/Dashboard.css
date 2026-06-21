@@ -1,0 +1,148 @@
+.dashboard{
+    display:flex;
+    min-height:100vh;
+}
+.dashboard h1{
+    color: #013A63;
+}
+.main{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+}
+
+.content{
+    flex:1;
+    padding:40px;
+    background:#F5F6F8;
+}
+
+.content h1{
+    margin-bottom:30px;
+}
+
+/* Statistics Cards */
+
+.cards{
+    display:flex;
+    gap:40px;
+}
+
+.card{
+    width: 30%;
+    height:20%;
+
+    border-radius:20px;
+
+    padding:20px;
+
+    color:white;
+
+    box-shadow:4px 4px 10px rgba(0,0,0,.25);
+}
+
+.card h3{
+    margin-bottom:15px;
+}
+
+.card p{
+    font-size:2rem;
+    font-weight:bold;
+}
+
+.total{
+    background:linear-gradient(to right,#2D6DA3,#56A7E8);
+    border:solid 2px #2D6DA3;
+}
+
+.completed{
+    background:linear-gradient(to right,#5EA9A9,#8EE0DD);
+     border:solid 2px #2f8e8e;
+}
+
+.attention{
+    background:linear-gradient(to right,#D85A5A,#F59696);
+     border:solid 2px #d03535;
+}
+
+/* Projects Section */
+
+.projects-section{
+    margin-top:50px;
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:40px;
+}
+.projects-section h2{
+    color:#013A63
+}
+
+.project-column{
+    display:flex;
+    flex-direction:column;
+    gap:25px;
+}
+
+/* Card */
+
+.project-card{
+    border-radius:20px;
+
+    overflow:hidden;
+
+    box-shadow:0 4px 10px rgba(0,0,0,.15);
+}
+
+/* Ongoing Projects */
+
+.ongoing-card{
+    background:#9ac6dd;
+
+    border:3px solid #9ac6dd;
+}
+
+.ongoing-header{
+    background:#B7D1DE;
+
+    color:white;
+
+    padding:18px;
+}
+
+/* Attention Projects */
+
+.attention-card{
+    background:#e67862;
+
+    border:3px solid #e99887;
+}
+
+.attention-header{
+    background:#E8A89D;
+
+    color:white;
+
+    padding:18px;
+}
+
+/* Information Section */
+
+.project-info{
+    background:white;
+
+    padding:20px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
+}
+
+.project-info p{
+    color:#555;
+    font-size:15px;
+}
