@@ -7,6 +7,8 @@ import About from "./pages/About";
 import AuthLayout from "./components/AuthLayout";
 import Team from "./pages/Team";
 import Projects from "./pages/Projects";
+import Addmembers from "./pages/Addmembers";
+import AddProjects from "./pages/AddProject";
 
 function App() {
   return (
@@ -47,9 +49,18 @@ function App() {
           path="/team"
           element={<Team />}
         />
+        <Route 
+        path="/Addmembers" 
+        element={<Addmembers />}
+         />
+
         <Route
         path="/projects"
         element={<Projects />}
+        />
+        <Route
+        path="/AddProject"
+        element={<AddProjects />}
         />
 
 

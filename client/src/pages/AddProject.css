@@ -1,0 +1,92 @@
+.add-project-page{
+    display: flex;
+    min-height: 100vh;
+     background-color: #f0f6fa;
+}
+
+/* right side layout (Navbar + form area) */
+.main{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* centers the form in the page */
+.form-wrapper{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* form card */
+.form-container{
+    width: 520px;
+    background: white;
+    padding: 40px;
+    border-radius: 18px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+/* title */
+.form-container h1{
+    margin-bottom: 25px;
+    color: #19376d;
+    text-align: center;
+}
+
+/* form layout */
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* input group */
+.input-group{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* labels */
+.input-group label{
+    font-weight: 600;
+    font-size: 14px;
+    color: #333;
+}
+
+/* inputs + select */
+.input-group input,
+.input-group select{
+    padding: 14px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 15px;
+    outline: none;
+    transition: 0.2s;
+}
+
+/* focus effect */
+.input-group input:focus,
+.input-group select:focus{
+    border-color: #19376d;
+    box-shadow: 0 0 5px rgba(25,55,109,0.2);
+}
+
+/* submit button */
+.submit-btn{
+    margin-top: 10px;
+    padding: 14px;
+    background: #19376d;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.2s;
+}
+
+.submit-btn:hover{
+    background: #0f2448;
+}

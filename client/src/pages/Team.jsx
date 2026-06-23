@@ -2,8 +2,10 @@ import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import "./Team.css";
 import { Plus } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 function Team() {
+    const navigate = useNavigate();
 
     const members = [
         {
@@ -37,9 +39,10 @@ function Team() {
 
                         <h1>Team Members</h1>
 
-                        <button className="add-member-btn">
-                            <Plus size={20} />
-                            Add Member
+                        <button  className="add-member-btn"
+                    onClick={() => navigate("/Addmembers")}
+                >       <Plus size={20} />
+                         Add Member
                         </button>
 
                     </div>

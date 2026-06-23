@@ -19,8 +19,8 @@ function Sidebar() {
         return null;
     }
     const showBackButton =
-        location.pathname === "/add-team-member" ||
-        location.pathname === "/add-project";
+        location.pathname === "/Addmembers" ||
+        location.pathname === "/AddProject";
     return (
         <div className="sidebar">
 
@@ -58,9 +58,7 @@ function Sidebar() {
 
                     <ArrowLeft size={28}/>
 
-                    <span className="tooltip">
-                        Back
-                    </span>
+                    <span className="tooltip">Back</span>
 
                 </Link>
 

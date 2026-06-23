@@ -3,8 +3,10 @@ import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import "./Project.css";
 import { Plus, Search } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 function Project() {
+  const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState("All");
 
   const projects = [
@@ -66,7 +68,8 @@ function Project() {
           <div className="project-header">
             <h1>Projects</h1>
 
-            <button className="add-project-btn">
+            <button className="add-project-btn"
+             onClick={() => navigate("/AddProject")}>
               <Plus size={20} />
               Add Project
             </button>

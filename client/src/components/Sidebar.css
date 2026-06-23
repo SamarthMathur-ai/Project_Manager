@@ -74,9 +74,21 @@
     opacity:1;
 }
 .back-icon{
-    position:relative;
-
-    color:white;
-
-    text-decoration:none;
+    
+    color: white;
+    text-decoration: none;
+}
+.back-icon .tooltip{
+    position: absolute;
+    left: 80px;   
+   
+    opacity: 0;
+    transition: 0.2s;
+    white-space: nowrap;
+}
+.back-icon:hover .tooltip{
+    opacity: 1;
+    
+    left: 80px;
+    
 }

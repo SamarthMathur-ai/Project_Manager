@@ -1,0 +1,68 @@
+.add-member-page{
+    display: flex;
+    min-height: 100vh;
+    background-color: #f0f6fa;
+}
+
+.main{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-content{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-container{
+    width: 500px;
+    padding: 40px;
+    background:white;
+    border-radius: 20px;
+}
+
+.form-container h1{
+    margin-bottom:30px;
+    color:#19376d;
+}
+
+form{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
+
+.input-group{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.input-group label{
+    font-weight:600;
+}
+
+.input-group input{
+    padding:15px;
+    border:1px solid #ccc;
+    border-radius:10px;
+    font-size:15px;
+}
+
+.submit-btn{
+    margin-top:10px;
+
+    padding:15px;
+
+    background:#19376d;
+    color:white;
+
+    border:none;
+    border-radius:10px;
+
+    cursor:pointer;
+    font-size:16px;
+}
