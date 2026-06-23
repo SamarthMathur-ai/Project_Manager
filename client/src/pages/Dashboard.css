@@ -64,10 +64,9 @@
     background:linear-gradient(to right,#D85A5A,#F59696);
      border:solid 2px #d03535;
 }
-
 /* Projects Section */
 
-.projects-section{
+.dashboard-projects-section{
     margin-top:50px;
 
     display:grid;
@@ -76,19 +75,23 @@
 
     gap:40px;
 }
-.projects-section h2{
-    color:#013A63
+
+.dashboard-projects-section h2{
+    color:#013A63;
 }
 
-.project-column{
+.dashboard-project-column{
     display:flex;
+
     flex-direction:column;
+
     gap:25px;
 }
 
+
 /* Card */
 
-.project-card{
+.dashboard-project-card{
     border-radius:20px;
 
     overflow:hidden;
@@ -96,15 +99,16 @@
     box-shadow:0 4px 10px rgba(0,0,0,.15);
 }
 
+
 /* Ongoing Projects */
 
-.ongoing-card{
+.dashboard-ongoing-card{
     background:#9ac6dd;
 
     border:3px solid #9ac6dd;
 }
 
-.ongoing-header{
+.dashboard-ongoing-header{
     background:#B7D1DE;
 
     color:white;
@@ -112,15 +116,16 @@
     padding:18px;
 }
 
+
 /* Attention Projects */
 
-.attention-card{
+.dashboard-attention-card{
     background:#e67862;
 
     border:3px solid #e99887;
 }
 
-.attention-header{
+.dashboard-attention-header{
     background:#E8A89D;
 
     color:white;
@@ -128,9 +133,10 @@
     padding:18px;
 }
 
+
 /* Information Section */
 
-.project-info{
+.dashboard-project-info{
     background:white;
 
     padding:20px;
@@ -142,7 +148,14 @@
     gap:15px;
 }
 
-.project-info p{
+.dashboard-project-info p{
     color:#555;
+
     font-size:15px;
+
+    margin:0;
+}
+
+.dashboard-project-header h3{
+    margin:0;
 }

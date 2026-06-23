@@ -1,0 +1,182 @@
+/* Team Page Layout */
+
+.team-page{
+    display: flex;
+    min-height: 100vh;
+}
+
+.main{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.team-content{
+    padding: 40px;
+    background: #f4f6f8;
+    min-height: 100vh;
+}
+
+
+/* Header */
+
+.team-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.team-header h1{
+    color: #003B6F;
+}
+
+
+/* Add Member Button */
+
+.add-member-btn{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9em;
+    font-weight: bold;
+
+    background: #014d8d;
+    color: white;
+
+    border: none;
+    border-radius: 12px;
+
+    padding: 12px 20px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.add-member-btn:hover{
+    
+     background: #003B6F;
+}
+
+
+/* Cards Container */
+
+.members-container{
+    display: flex;
+
+   
+
+    gap: 30px;
+}
+
+
+/* Individual Card */
+
+.member-card{
+    width:450px;
+    margin: auto;
+    background: #dbeef9;
+
+
+    border: 3px solid #003B6F;
+
+    border-radius: 30px;
+
+    overflow: hidden;
+
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    
+
+}
+
+
+/* Upper Part */
+
+.member-top{
+    display: flex;
+
+    align-items: center;
+
+    gap: 40px;
+
+    padding: 10px;
+}
+
+
+/* Profile Picture */
+
+.member-image img{
+    width: 130px;
+    height: 130px;
+
+    object-fit: cover;
+
+    border-radius: 12px;
+}
+
+
+/* Details */
+
+.member-details{
+    display: flex;
+    flex-direction: column;
+
+    gap: 22px;
+}
+
+
+.member-details h3{
+    font-size: 1rem;
+    font-weight: 600;
+
+    color: black;
+
+    margin-bottom: 4px;
+}
+
+
+.member-details p{
+    font-size: 1.3rem;
+
+    color: #3479a5;
+}
+
+
+.member-details a{
+    font-size: 1.3rem;
+
+    color: #3479a5;
+
+    text-decoration: none;
+}
+
+.member-details a:hover{
+    text-decoration: underline;
+}
+
+
+
+
+/* Responsive */
+
+@media(max-width:1100px){
+
+    .members-container{
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+@media(max-width:700px){
+
+    .member-top{
+        flex-direction: column;
+
+        text-align: center;
+
+        gap: 25px;
+    }
+
+}

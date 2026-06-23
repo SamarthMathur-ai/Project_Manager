@@ -1,0 +1,163 @@
+.about-page{
+    display:flex;
+    min-height:100vh;
+}
+
+.main{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+}
+
+.about-content{
+    padding:40px;
+    background:#F5F6F8;
+    flex:1;
+}
+
+.about-content h1{
+    margin-bottom:30px;
+    color:#003B6F;
+}
+
+.about-card{
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 4px 10px rgba(0,0,0,.15);
+    margin-bottom:40px;
+}
+
+.about-card h2{
+    color:#003B6F;
+    margin-bottom:15px;
+}
+
+.about-card p{
+    line-height:1.8;
+    color:#555;
+}
+
+/* Features */
+
+.features{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:25px;
+    margin-bottom:40px;
+}
+
+.feature-card{
+    background:white;
+    padding:25px;
+    border-radius:20px;
+    box-shadow:0 4px 10px rgba(0,0,0,.15);
+}
+
+.feature-card h3{
+    margin-bottom:15px;
+    color:#003B6F;
+}
+
+/* Tech Stack */
+
+.tech-stack{
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 4px 10px rgba(0,0,0,.15);
+}
+
+.tech-stack h2{
+    color:#003B6F;
+    margin-bottom:20px;
+}
+
+.tech-stack ul{
+    list-style:none;
+}
+
+.tech-stack li{
+    padding:10px 0;
+    color:#555;
+}
+.section-heading{
+    margin-bottom:25px;
+    color:#003B6F;
+}
+
+.features{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:25px;
+    margin-bottom:40px;
+}
+
+.feature-card{
+    background:white;
+    padding:25px;
+    border-radius:20px;
+    box-shadow:0 4px 10px rgba(0,0,0,.15);
+}
+
+.feature-card h3{
+    color:#003B6F;
+    margin-bottom:15px;
+}
+
+.tech-stack{
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    margin-bottom:40px;
+    box-shadow:0 4px 10px rgba(0,0,0,.15);
+}
+
+.tech-stack h2{
+    color:#003B6F;
+    margin-bottom:20px;
+}
+
+.tech-stack ul{
+    list-style:none;
+}
+
+.tech-stack li{
+    padding:10px 0;
+    color:#555;
+}
+
+.team-section{
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 4px 10px rgba(0,0,0,.15);
+}
+
+.team-section h2{
+    color:#003B6F;
+    margin-bottom:25px;
+}
+
+.team-cards{
+    display:flex;
+    gap:30px;
+    
+}
+
+.member-card{
+    flex:1;
+    padding:25px;
+    background:#e0edf7;
+    border-radius:15px;
+    border:2px solid #003B6F;
+}
+
+.member-card h3{
+    color:#003B6F;
+    margin-bottom:10px;
+}
+
+.member-card p{
+    color:#003B6F;
+}

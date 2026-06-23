@@ -1,0 +1,171 @@
+.project-page {
+    display: flex;
+    min-height: 100vh;
+    background: #f5f8fb;
+}
+
+.main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-content {
+    padding: 30px 40px;
+}
+
+/* Header */
+
+.project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.project-header h1 {
+    color: #003b6f;
+    font-size: 2.8rem;
+}
+
+.add-project-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    background: #003b6f;
+    color: white;
+
+    border: none;
+    border-radius: 14px;
+
+    padding: 12px 20px;
+
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+/* Search */
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.search-bar {
+    width: 420px;
+    height: 45px;
+
+    background: white;
+
+    border: 1px solid #8da2b2;
+    border-radius: 20px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 0 15px;
+}
+
+.search-bar input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 1rem;
+}
+
+/* Filters */
+
+.filter-title {
+    margin-top: 35px;
+    margin-bottom: 20px;
+    color: #003b6f;
+}
+
+.filters {
+    display: flex;
+    gap: 20px;
+}
+
+.filter-btn {
+    width: 150px;
+    height: 50px;
+
+    border: 1px solid #7d8a93;
+    border-radius: 25px;
+
+    background: #c5dce7;
+
+    font-size: 1rem;
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.filter-btn:hover {
+    background: #9ec2d3;
+}
+
+.active-filter {
+    background: #61a5c2;
+    color: white;
+}
+
+/* Project Cards */
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+
+    margin-top: 60px;
+}
+
+.project-card {
+    height: 160px;
+
+    border-radius: 12px;
+    border: 0.5px solid black;
+
+    padding: 25px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.project-card h2 {
+    margin-bottom: 15px;
+    color: #222;
+}
+
+.project-card p {
+    margin-top: 8px;
+    color: #333;
+}
+
+.project-card img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+}
+
+/* Responsive */
+
+@media(max-width:900px){
+
+    .filters{
+        flex-wrap: wrap;
+    }
+
+    .projects-grid{
+        grid-template-columns: 1fr;
+    }
+
+    .search-bar{
+        width: 100%;
+    }
+}

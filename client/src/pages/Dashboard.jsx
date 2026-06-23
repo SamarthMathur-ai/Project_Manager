@@ -68,25 +68,30 @@ function Dashboard() {
 
           </div>
 
-          {/* Project Sections */}
+          {/* Projects Section */}
 
-          <div className="projects-section">
+          <div className="dashboard-projects-section">
 
             {/* Ongoing Projects */}
 
-            <div className="project-column">
+            <div className="dashboard-project-column">
 
               <h2>Ongoing Projects</h2>
 
               {ongoingProjects.map((project, index) => (
 
-                <div className="project-card ongoing-card" key={index}>
+                <div
+                  className="dashboard-project-card dashboard-ongoing-card"
+                  key={index}
+                >
 
-                  <div className="project-header ongoing-header">
+                  <div className="dashboard-project-header dashboard-ongoing-header">
+
                     <h3>{project.title}</h3>
+
                   </div>
 
-                  <div className="project-info">
+                  <div className="dashboard-project-info">
 
                     <p>
                       <strong>Due:</strong> {project.due}
@@ -110,19 +115,24 @@ function Dashboard() {
 
             {/* Attention Needed */}
 
-            <div className="project-column">
+            <div className="dashboard-project-column">
 
               <h2>Attention Needed</h2>
 
               {attentionProjects.map((project, index) => (
 
-                <div className="project-card attention-card" key={index}>
+                <div
+                  className="dashboard-project-card dashboard-attention-card"
+                  key={index}
+                >
 
-                  <div className="project-header attention-header">
+                  <div className="dashboard-project-header dashboard-attention-header">
+
                     <h3>{project.title}</h3>
+
                   </div>
 
-                  <div className="project-info">
+                  <div className="dashboard-project-info">
 
                     <p>
                       <strong>Due:</strong> {project.due}

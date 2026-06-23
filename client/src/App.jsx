@@ -3,8 +3,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
-
+import About from "./pages/About";
 import AuthLayout from "./components/AuthLayout";
+import Team from "./pages/Team";
+import Projects from "./pages/Projects";
 
 function App() {
   return (
@@ -37,9 +39,22 @@ function App() {
           path="/dashboard"
           element={<Dashboard />}
         />
+        <Route
+           path="/about"
+           element={<About />}
+       />
+       <Route
+          path="/team"
+          element={<Team />}
+        />
+        <Route
+        path="/projects"
+        element={<Projects />}
+        />
+
 
       </Routes>
-
+        
     </BrowserRouter>
   );
 }
