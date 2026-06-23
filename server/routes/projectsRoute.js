@@ -15,4 +15,16 @@ router.post("/addTask", projectsController.insertTask);
 // ! Route to change status of a project
 router.patch("/changeStatus", projectsController.changeStatus);
 
+// ! Router to see active projects
+router.get('/showActProjects', projectsController.activeProj);
+
+// ! Router to see completed projects
+router.get('/showCompProjects', projectsController.compProj)
+
+// ! Router to see overdue projects
+router.get('/showOverProjects', projectsController.overProj)
+
+// ! Router for search bar
+router.get('/searchBar', projectsController.searchBar)
+
 export default router;

@@ -6,7 +6,7 @@ const showProjects = async (req, res) => {
     try {
         
         const table = await projectsModel.showProjects(id);
-        if(table && table.length > 0) {// * even if there is nothing the server will send 200 so checking the lenggth.
+        if(table) {// * even if there is nothing the server will send 200 so checking the lenggth.
             return res.status(200).send(table);
         } else {
             return res.status(404).send("No projects made currently by the user.");
@@ -24,6 +24,10 @@ const insertProject = async (req, res) => {
     // * name, image_path, starting_date, end_date, status, priority, id
     const id = req.user.id;
     const {name, image_path, starting_date, end_date, status, priority} = req.body;
+    if (name.trim() === "") {
+        alert("Project name cannot be empty");
+        return;
+    }
 
     try {
         if (!id || !name || !starting_date || !end_date) {
@@ -88,10 +92,78 @@ const changeStatus = async (req,res) => {
 }
 
 
+// ! To show active projects
+const activeProj = async (req, res) =>  {
+    const id = req.user.id;
+    try {
+        const table = await projectsModel.seeActive(id);
+        
+        return res.status(200).json(table)
+        
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({error: error.message})
+    }
+}
+
+
+// ! To show completed projects
+const compProj = async (req, res) =>  {
+    const id = req.user.id;
+    try {
+        const table = await projectsModel.seeCompleted(id);
+        
+        return res.status(200).json(table)
+        
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({error: error.message})
+    }
+}
+
+
+// ! To show Overdue projects
+const overProj = async (req, res) =>  {
+    const id = req.user.id;
+    try {
+        const table = await projectsModel.seeOverdue(id);
+        
+        return res.status(200).json(table)
+        
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({error: error.message})
+    }
+}
+
+
+// ! searchBar
+const searchBar = async (req, res) =>  {
+    const id = req.user.id;
+    const {name} = req.body;
+    if (!name || name.trim() === "") {
+        return res.status(400).json({
+            message: "Name is required"
+        });
+    }
+    try {
+        const table = await projectsModel.searchbar(id, name);
+        
+        return res.status(200).json(table)
+        
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({error: error.message})
+    }
+}
 
 export default {
     showProjects,
     insertProject,
     insertTask,
-    changeStatus
+    changeStatus,
+    activeProj,
+    compProj,
+    overProj,
+    searchBar
 }

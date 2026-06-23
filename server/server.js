@@ -9,6 +9,7 @@ import express from 'express';
 import authRoutes from './routes/usersRoute.js'
 import teamMembersRoutes from './routes/teamMembersRoute.js'
 import projectsRoutes from './routes/projectsRoute.js'
+import subTasksRoutes from './routes/subTasksRoute.js'
 import authenticateToken from './middleware/authMiddleware.js';
 
 
@@ -24,6 +25,7 @@ app.use('/auth', authRoutes);
 
 app.use('/api/teamMemberPage', authenticateToken, teamMembersRoutes);
 app.use('/api/projectPage', authenticateToken, projectsRoutes);
+app.use('/api/subTaskPage', authenticateToken, subTasksRoutes)
 // app.use('/api/projects', authenticateToken, projectRoutes);
 app.get('/api/projects', authenticateToken, (req, res) => {
     // If the code reaches this line, the token is perfectly valid!

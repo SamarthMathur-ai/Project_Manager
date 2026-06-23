@@ -66,11 +66,74 @@ const changeStatus = async (projectId,status) => {
 }
 
 
+
+// ! For ongoing projects
+const seeActive = async (userId) => {
+    const sql = `
+        SELECT * FROM projects WHERE user_id = ? AND status = ?
+    `
+    const [table] = await db.query(sql,[
+        userId,
+        'Ongoing'
+    ])
+
+    return table;
+}
+
+
+// ! For completed projects
+const seeCompleted = async (userId) => {
+    const sql = `
+        SELECT * FROM projects WHERE user_id = ? AND status = ?
+    `
+
+    const [table] = await db.query(sql,[
+        userId,
+        'Completed'
+    ])
+
+    return table;
+}
+
+
+// ! For overdue/attention projects
+const seeOverdue = async (userId) => {
+    const sql = `
+        SELECT * FROM projects WHERE user_id = ? AND DATEDIFF(end_date, CURRENT_DATE) < 3
+    `
+
+    const [table] = await db.query(sql,[
+        userId
+    ])
+
+    return table;
+}
+
+
+// ! Search Bar
+const searchbar = async (userId, name) => {
+    const sql = `
+        SELECT * FROM projects WHERE user_id = ? AND name LIKE ?
+    `
+
+    const [table] = await db.query(sql,[
+        userId,
+        `%${name}%`
+    ])
+
+    return table
+}
+
+
 export default {
     showProjects,
     addProject,
     addTask,
-    changeStatus
+    changeStatus,
+    seeActive,
+    seeCompleted,
+    seeOverdue,
+    searchbar
 }
 
 
