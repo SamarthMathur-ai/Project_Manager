@@ -43,7 +43,7 @@ const showTask = async (projectId) => {
     const sql = `
         SELECT * FROM tasks WHERE project_id = ?
     `
-    const table = await db.query(sql,[
+    const [table] = await db.query(sql,[
         projectId
     ])
     return table
@@ -67,6 +67,7 @@ const showTeamMemb = async (userId) => {
 const addTeamSub = async (subTaskId, teamMemberId) => {
     const sql = `
         INSERT INTO subtasks_assignees
+        (subtask_id, team_member_id)
         VALUES
         (?,?)
     `

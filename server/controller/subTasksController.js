@@ -81,10 +81,83 @@ const addTask = async(req,res) => {
 }
 
 
+// ! showing team members
+const showTeamMembers = async (req, res)=> {
+    const id = req.user.id;
+    try {
+        const table = await subTasksModel.showTeamMemb(id);
+        return res.status(200).json(table);
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({error: error.message});
+    }
+}
+
+
+// ! Adding team members to subtask
+const addTeamToSubtasks = async (req, res)=> {
+    const {subTaskId, teamMemberId} = req.body;
+    if(!subTaskId || !teamMemberId) {
+        return res.status(400).json({message: "Enter valid credentials."});
+    }
+    try {
+        const result = await subTasksModel.addTeamSub(subTaskId, teamMemberId);
+        res.status(201).json({message: "Team member successfully added to the subtask."})
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({error: error.message});
+    }
+}
+
+
+
+// ! Deleting the subtask
+const deleteSubTask = async (req, res)=> {
+    const {subtaskId} = req.body;
+    if(!subtaskId) {
+        return res.status(400).json({message: "Enter valid subtaskId."});
+    }
+    try {
+        const result = await subTasksModel.delSubTask(subtaskId);
+        res.status(204).json({message: "Subtask deleted successfully."})
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({error: error.message});
+    }
+}
+
+
+// ! Changing status of subtask
+const changingStatusSubTask = async (req, res) => {
+    const {subTaskId, status} = req.body;
+    if(!subTaskId || !status) {
+        return res.status(400).json({message: "Enter valid credentials."});
+    }
+    const allowedStatus = ["Ongoing", "Completed"];
+
+    if (!allowedStatus.includes(status)) {
+        return res.status(400).json({
+            message: "Invalid status"
+        });
+    }
+    try {
+        const result = await subTasksModel.chStSub(subTaskId, status);
+        return res.status(200).json({message: "Status changed successfully."})
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({error: error.message});
+    }
+}
+
+
 
 export default {
     showSubTasks,
     insertSubTask,
     showTasks,
-    addTask
+    addTask,
+    showTeamMembers,
+    addTeamToSubtasks,
+    deleteSubTask,
+    changingStatusSubTask
 }
