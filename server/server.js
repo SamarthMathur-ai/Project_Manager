@@ -12,15 +12,18 @@ import projectsRoutes from './routes/projectsRoute.js'
 import subTasksRoutes from './routes/subTasksRoute.js'
 import dashboardRoutes from './routes/dashboareRoute.js'
 import authenticateToken from './middleware/authMiddleware.js';
+import cors from 'cors';
 
 
 dotenv.config({ path: './.env' });
 
 const app = express();
+
+app.use(cors()) // ? use when all frontend and backend are on different servers.
 app.use(express.json()); // * to parse json file
 
 // ! public routes
-app.use('/auth', authRoutes);
+app.use('/auth', authRoutes); 
 
 // ! public routes
 
