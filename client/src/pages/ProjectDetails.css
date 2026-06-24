@@ -1,0 +1,126 @@
+.project-details-page{
+    display:flex;
+    min-height:100vh;
+}
+
+.PD-main{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+}
+
+.PD-content{
+    padding:30px;
+}
+
+.PD-content h1{
+    color:#19376d;
+    margin-bottom:25px;
+}
+
+.PD-content h2{
+    margin:35px 0 20px;
+    color:#19376d;
+}
+
+.project-info-table,
+.subtask-table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+}
+
+.project-info-table{
+    margin-bottom:30px;
+}
+
+.project-info-table th,
+.subtask-table th{
+    background:#1e4388;
+    color:white;
+    padding:16px;
+}
+
+.project-info-table td,
+.subtask-table td{
+    padding:16px;
+    text-align:center;
+    border-bottom:1px solid #eee;
+}
+
+.project-info-table select,
+.subtask-table select{
+    padding:8px;
+    border-radius:10px;
+}
+
+.subtask-table tr:hover{
+    background:#f8f9fc;
+}
+
+.member-btn{
+    background:#19376d;
+    color:white;
+    border:none;
+    padding:8px 12px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.member-dropdown{
+    margin-top:15px;
+    background:white;
+    border:1px solid #ddd;
+    border-radius:12px;
+    padding:12px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.member-pills{
+    margin-top:15px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    align-items:flex-start;
+}
+
+.pill{
+    background:#e8eefc;
+    color:#19376d;
+    padding:7px 14px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:500;
+    border:1px solid #d6e1fa;
+}
+
+.delete-btn{
+    border:none;
+    background:none;
+    cursor:pointer;
+    color:red;
+}
+
+.PD-add-btn{
+    margin-top:30px;
+    background:#19376d;
+    color:white;
+    border:none;
+    padding:14px 20px;
+    border-radius:14px;
+    cursor:pointer;
+    font-size:15px;
+}
+
+@media(max-width:1200px){
+
+    .subtask-table{
+        min-width:1100px;
+    }
+
+}

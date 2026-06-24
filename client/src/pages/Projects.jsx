@@ -107,6 +107,7 @@ function Project() {
                 className="project-card"
                 key={project.id}
                 style={{ backgroundColor: project.color }}
+                 onClick={() => navigate(`/project/${project.id}`)}
               >
                 <div>
                   <h2>{project.title}</h2>

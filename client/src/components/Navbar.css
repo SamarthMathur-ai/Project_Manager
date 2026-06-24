@@ -37,11 +37,11 @@
     padding: 12px 24px;
     border: none;
     border-radius: 10px;
-    background: #003b73;
+    background: #004d99;
     color: white;
     cursor: pointer;
 }
 
 .signup-btn:hover {
-    background: #004d99;
+    background: #003b73;
 }

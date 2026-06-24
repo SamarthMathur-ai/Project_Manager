@@ -9,6 +9,8 @@ import Team from "./pages/Team";
 import Projects from "./pages/Projects";
 import Addmembers from "./pages/Addmembers";
 import AddProjects from "./pages/AddProject";
+import ProjectDetails from "./pages/ProjectDetails";
+import AddSubtask from "./pages/AddSubtask";
 
 function App() {
   return (
@@ -62,6 +64,15 @@ function App() {
         path="/AddProject"
         element={<AddProjects />}
         />
+        <Route 
+        path="/project/:id"
+         element={<ProjectDetails />}
+          />
+
+        <Route 
+        path="/project/:id/add-subtask"
+         element={<AddSubtask />} 
+         />
 
 
       </Routes>

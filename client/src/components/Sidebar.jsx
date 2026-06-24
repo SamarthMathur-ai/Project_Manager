@@ -20,7 +20,8 @@ function Sidebar() {
     }
     const showBackButton =
         location.pathname === "/Addmembers" ||
-        location.pathname === "/AddProject";
+        location.pathname === "/AddProject" ||
+        location.pathname.startsWith("/project/");
     return (
         <div className="sidebar">
 

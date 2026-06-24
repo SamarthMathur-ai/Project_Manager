@@ -1,8 +1,11 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+
 import "./Navbar.css"
 
 function Navbar() {
   const location = useLocation();
+   const navigate = useNavigate();
+
 
   const hideNavbar =
     location.pathname === "/login" ||
@@ -24,7 +27,8 @@ function Navbar() {
             <span>Samarth Mathur</span>
         </div>
 
-        <button className="signup-btn">
+        <button className="signup-btn"
+        onClick={() => navigate("/signup")} >
             Sign Up
         </button>
 
