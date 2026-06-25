@@ -57,7 +57,7 @@ const login = async (req,res) => {
             console.log(result);
 
 
-            res.json({accessToken: accessToken, refreshToken: refreshToken});
+            res.status(200).json({accessToken: accessToken, refreshToken: refreshToken});
         } else {
             res.status(401).send("Not allowed")
         }

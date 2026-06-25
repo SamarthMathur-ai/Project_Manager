@@ -3,7 +3,7 @@ import InputField from "../components/InputField";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import axios from "axios"
+import api from "../api/axios.js"
 
 function Signup() {
     const navigate = useNavigate();
@@ -14,8 +14,8 @@ function Signup() {
     const [message, setMessage] = useState("");
     const handleSignup = async() => {
         try {
-            const response = await axios.post(
-                "http://localhost:3000/auth/userRegister",
+            const response = await api.post(
+                "/auth/userRegister",
                 {
                     name,
                     username,

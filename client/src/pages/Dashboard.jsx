@@ -1,8 +1,35 @@
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import "./Dashboard.css";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react"; // ! To check for the access token
+import api from "../api/axios";
 
 function Dashboard() {
+  const navigate = useNavigate();
+  useEffect(()=> {
+    const token = localStorage.getItem("accessToken");
+    if(!token) {
+      navigate("/")
+    }
+  },[navigate]) // ? [] so that it runs only once
+
+
+  useEffect(() => {
+
+    const testAPI = async () => {
+        try {
+            const response = await api.get("/api/projectPage/showProjects");
+            console.log(response.data);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    testAPI();
+
+}, []);
+
 
   const ongoingProjects = [
     {
