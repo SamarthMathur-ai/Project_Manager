@@ -1,62 +1,50 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import "./Project.css";
 import { Plus, Search } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import {fetchProjects} from "../api/services/projectService.js"
 
 function Project() {
   const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState("All");
+  const [projects, setProjects] = useState([]); // Empty initiallly
+  const [loading, setLoading] = useState(true);
 
-  const projects = [
-    {
-      id: 1,
-      title: "Website Redesign",
-      due: "15 Jul",
-      team: "Frontend",
-      priority: "High Priority",
-      color: "#f2e1c5",
-      image: "https://cdn-icons-png.flaticon.com/512/2881/2881142.png",
-      status: "Active",
-    },
-    {
-      id: 2,
-      title: "Web Development",
-      due: "20 Jul",
-      team: "UI Team",
-      priority: "High Priority",
-      color: "#f2e1c5",
-      image: "https://cdn-icons-png.flaticon.com/512/1055/1055687.png",
-      status: "Completed",
-    },
-    {
-      id: 3,
-      title: "Backend",
-      due: "25 Jul",
-      team: "Backend",
-      priority: "High Priority",
-      color: "#cfe1ea",
-      image: "https://cdn-icons-png.flaticon.com/512/2103/2103633.png",
-      status: "Active",
-    },
-    {
-      id: 4,
-      title: "AI/ML Project",
-      due: "30 Jul",
-      team: "Backend",
-      priority: "High Priority",
-      color: "#cfe1ea",
-      image: "https://cdn-icons-png.flaticon.com/512/4712/4712109.png",
-      status: "Overdue",
-    },
-  ];
+  // ! Fetch from backend
+  useEffect(() => {
+    const getProjects = async() => {
+      try {
+        setLoading(true);
+        const response = await fetchProjects(); // Calls the /showProjects endpoint
+        setProjects(response.data); // Assuming your baackend returns an array
+      } catch (error) {
+        console.error("Error fetching projects:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    getProjects();
+  }, []);
+  
 
   const filteredProjects =
     activeFilter === "All"
       ? projects
       : projects.filter((project) => project.status === activeFilter);
-
+  
+  if (loading) {
+    return (
+      <div className="project-page">
+        <Sidebar />
+        <div className="main">
+          <div style={{ padding: "50px", textAlign: "center" }}>Loading your projects...</div>
+        </div>
+      </div> 
+    );
+  }
+     
   return (
     <div className="project-page">
       <Sidebar />
@@ -110,14 +98,14 @@ function Project() {
                  onClick={() => navigate(`/project/${project.id}`)}
               >
                 <div>
-                  <h2>{project.title}</h2>
+                  <h2>{project.name}</h2>
 
-                  <p>Due: {project.due}</p>
-                  <p>Team: {project.team}</p>
+                  <p>Due: {project.end_date}</p>
+                  <p>Status: {project.status}</p>
                   <p>{project.priority}</p>
                 </div>
 
-                <img src={project.image} alt="" />
+                <img src={project.image_path} alt="" />
               </div>
             ))}
           </div>
