@@ -4,20 +4,23 @@ import Sidebar from "../components/Sidebar";
 import "./Project.css";
 import { Plus, Search } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import {fetchProjects} from "../api/services/projectService.js"
+import {fetchProjectsByFilter} from "../api/services/projectService.js"
+
 
 function Project() {
   const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState("All");
   const [projects, setProjects] = useState([]); // Empty initiallly
+  const [search, setSearch] = useState("");// * Upar vale me array the hence bracket here string hence "".
   const [loading, setLoading] = useState(true);
+ 
 
   // ! Fetch from backend
   useEffect(() => {
     const getProjects = async() => {
       try {
         setLoading(true);
-        const response = await fetchProjects(); // Calls the /showProjects endpoint
+        const response = await fetchProjectsByFilter(activeFilter); // Calls the /showProjects endpoint
         setProjects(response.data); // Assuming your baackend returns an array
       } catch (error) {
         console.error("Error fetching projects:", error);
@@ -26,13 +29,10 @@ function Project() {
       }
     };
     getProjects();
-  }, []);
+  }, [activeFilter]);
+  // ! : By putting activeFilter in the brackets, you are telling React: "Whenever the user clicks a button and activeFilter changes, run this entire useEffect again."
   
 
-  const filteredProjects =
-    activeFilter === "All"
-      ? projects
-      : projects.filter((project) => project.status === activeFilter);
   
   if (loading) {
     return (
@@ -44,7 +44,7 @@ function Project() {
       </div> 
     );
   }
-     
+
   return (
     <div className="project-page">
       <Sidebar />
@@ -67,7 +67,12 @@ function Project() {
           <div className="search-container">
             <div className="search-bar">
               <Search size={18} />
-              <input type="text" placeholder="Search" />
+              <input 
+                type="text" 
+                placeholder="Search projects..." 
+                value={search} // Connects input to the state
+                onChange={(e) => setSearch(e.target.value)} // Updates state as you type
+              />
             </div>
           </div>
 
@@ -90,7 +95,11 @@ function Project() {
 
           {/* Cards */}
           <div className="projects-grid">
-            {filteredProjects.map((project) => (
+            {projects
+            .filter((project)=>
+              project.name.toLowerCase().includes(search.toLowerCase())  // ! applying searchquery condition before we apply filter see how easy it becomes rather making another function.
+
+            ).map((project) => (
               <div
                 className="project-card"
                 key={project.id}

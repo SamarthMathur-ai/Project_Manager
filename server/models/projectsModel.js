@@ -99,7 +99,10 @@ const seeCompleted = async (userId) => {
 // ! For overdue/attention projects
 const seeOverdue = async (userId) => {
     const sql = `
-        SELECT * FROM projects WHERE user_id = ? AND DATEDIFF(end_date, CURRENT_DATE) < 3
+    SELECT * FROM projects 
+    WHERE user_id = ? 
+    AND status = 'Ongoing' 
+    AND end_date < CURRENT_DATE;
     `
 
     const [table] = await db.query(sql,[

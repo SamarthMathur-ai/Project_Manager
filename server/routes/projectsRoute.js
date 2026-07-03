@@ -25,6 +25,8 @@ router.get('/showCompProjects', projectsController.compProj)
 router.get('/showOverProjects', projectsController.overProj)
 
 // ! Router for search bar
+// ! this is obsolete only make search rouote when you have to query from a large database we already filter beforehand on the basis of user
 router.get('/searchBar', projectsController.searchBar)
 
 export default router;
+
