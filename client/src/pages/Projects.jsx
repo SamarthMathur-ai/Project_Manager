@@ -11,7 +11,7 @@ function Project() {
   const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState("All");
   const [projects, setProjects] = useState([]); // Empty initiallly
-  const [search, setSearch] = useState("");// * Upar vale me array the hence bracket here string hence "".
+  const [search, setSearch] = useState("");// * Upar vale me array the hence bracket here string hence "".ads
   const [loading, setLoading] = useState(true);
  
 
