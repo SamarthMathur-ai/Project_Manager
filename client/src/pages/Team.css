@@ -1,4 +1,6 @@
-/* Team Page Layout */
+/* ===========================
+   Team Page Layout
+=========================== */
 
 .team-page{
     display: flex;
@@ -18,7 +20,9 @@
 }
 
 
-/* Header */
+/* ===========================
+   Header
+=========================== */
 
 .team-header{
     display: flex;
@@ -32,13 +36,16 @@
 }
 
 
-/* Add Member Button */
+/* ===========================
+   Add Member Button
+=========================== */
 
 .add-member-btn{
     display: flex;
     align-items: center;
     gap: 10px;
-    font-size: 0.9em;
+
+    font-size: 0.9rem;
     font-weight: bold;
 
     background: #014d8d;
@@ -55,58 +62,66 @@
 }
 
 .add-member-btn:hover{
-    
-     background: #003B6F;
+    background: #003B6F;
 }
 
 
-/* Cards Container */
+/* ===========================
+   Cards Container
+=========================== */
 
 .members-container{
     display: flex;
-
-   
-
-    gap: 20px;
+    flex-wrap: wrap;
+    gap: 30px;
 }
 
 
-/* Individual Card */
+/* ===========================
+   Individual Card
+=========================== */
 
 .member-card{
-    width:450px;
-   
+
+    flex: 0 0 calc(50% - 15px);
+    max-width: calc(50% - 15px);
+    
+
     background: #dbeef9;
 
-
     border: 3px solid #003B6F;
-
     border-radius: 30px;
 
     overflow: hidden;
 
     box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    
 
+    transition: 0.3s;
+}
+
+.member-card:hover{
+    transform: translateY(-5px);
 }
 
 
-/* Upper Part */
+/* ===========================
+   Upper Part
+=========================== */
 
 .member-top{
     display: flex;
-
     align-items: center;
-
-    gap: 40px;
-
-    padding: 10px;
+    gap: 35px;
+    padding: 25px;
 }
 
 
-/* Profile Picture */
+/* ===========================
+   Profile Image
+=========================== */
 
 .member-image img{
+
     width: 130px;
     height: 130px;
 
@@ -116,17 +131,22 @@
 }
 
 
-/* Details */
+/* ===========================
+   Details
+=========================== */
 
 .member-details{
+
     display: flex;
     flex-direction: column;
 
     gap: 10px;
+
+    flex: 1;
 }
 
-
 .member-details h3{
+
     font-size: 1rem;
     font-weight: 600;
 
@@ -135,20 +155,24 @@
     margin-bottom: 4px;
 }
 
-
 .member-details p{
+
     font-size: 1.3rem;
 
     color: #3479a5;
+
+    word-break: break-word;
 }
 
-
 .member-details a{
-    font-size: 1.3rem;
+
+    font-size: 1.2rem;
 
     color: #3479a5;
 
     text-decoration: none;
+
+    word-break: break-word;
 }
 
 .member-details a:hover{
@@ -156,27 +180,42 @@
 }
 
 
+/* ===========================
+   Responsive
+=========================== */
 
+@media (max-width:1100px){
 
-/* Responsive */
-
-@media(max-width:1100px){
-
-    .members-container{
-        grid-template-columns: 1fr;
+    .member-card{
+        flex: 0 0 100%;
+        max-width: 100%;
     }
 
 }
 
+@media (max-width:700px){
 
-@media(max-width:700px){
+    .team-content{
+        padding: 20px;
+    }
+
+    .team-header{
+        flex-direction: column;
+        gap: 20px;
+        align-items: flex-start;
+    }
 
     .member-top{
+
         flex-direction: column;
 
         text-align: center;
 
         gap: 20px;
+    }
+
+    .member-details{
+        align-items: center;
     }
 
 }

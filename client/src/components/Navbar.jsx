@@ -29,7 +29,7 @@ function Navbar() {
 
         <button className="signup-btn"
         onClick={() => navigate("/signup")} >
-            Sign Up
+            Log Out
         </button>
 
     </div>
