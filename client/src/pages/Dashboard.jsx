@@ -3,7 +3,6 @@ import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import "./Dashboard.css";
 import { useNavigate } from "react-router-dom";
-
 import {
     getTotalProjects,
     getCompletedProjects,
@@ -13,10 +12,9 @@ import {
 } from "../api/services/dashboardService";
 
 function Dashboard() {
-
     const navigate = useNavigate();
 
-    // Authentication check
+    // Authentication Check
     useEffect(() => {
         const token = localStorage.getItem("accessToken");
 
@@ -25,7 +23,7 @@ function Dashboard() {
         }
     }, [navigate]);
 
-    // Dashboard States
+    // States
     const [totalProjects, setTotalProjects] = useState(0);
     const [completedProjects, setCompletedProjects] = useState(0);
     const [attentionProjectsCount, setAttentionProjectsCount] = useState(0);
@@ -35,11 +33,8 @@ function Dashboard() {
 
     // Fetch Dashboard Data
     useEffect(() => {
-
         const fetchDashboard = async () => {
-
             try {
-
                 const [
                     total,
                     completed,
@@ -56,19 +51,26 @@ function Dashboard() {
 
                 setTotalProjects(total.data.ans);
                 setCompletedProjects(completed.data.ans);
-                setAttentionProjectsCount(attention.data.ans);
 
+                // Ongoing Projects
                 setOngoingProjects(ongoing.data);
-                setAttentionProjects(attentionList.data);
+
+                // Filter only ongoing projects for Attention Needed
+                const filteredAttention = attentionList.data.filter(
+                    (project) => project.status === "Ongoing"
+                );
+
+                setAttentionProjects(filteredAttention);
+
+                // Count only ongoing attention projects
+                setAttentionProjectsCount(filteredAttention.length);
 
             } catch (err) {
                 console.log(err);
             }
-
         };
 
         fetchDashboard();
-
     }, []);
 
     return (
@@ -84,7 +86,7 @@ function Dashboard() {
 
                     <h1>Dashboard</h1>
 
-                    {/* Statistics Cards */}
+                    {/* Statistics */}
 
                     <div className="cards">
 
@@ -105,11 +107,11 @@ function Dashboard() {
 
                     </div>
 
-                    {/* Projects Section */}
+                    {/* Projects */}
 
                     <div className="dashboard-projects-section">
 
-                        {/* Ongoing Projects */}
+                        {/* Ongoing */}
 
                         <div className="dashboard-project-column">
 
@@ -118,7 +120,6 @@ function Dashboard() {
                             {ongoingProjects.length === 0 ? (
                                 <p>No Ongoing Projects</p>
                             ) : (
-
                                 ongoingProjects.map((project) => (
 
                                     <div
@@ -127,9 +128,7 @@ function Dashboard() {
                                     >
 
                                         <div className="dashboard-project-header dashboard-ongoing-header">
-
                                             <h3>{project.name}</h3>
-
                                         </div>
 
                                         <div className="dashboard-project-info">
@@ -154,7 +153,6 @@ function Dashboard() {
                                     </div>
 
                                 ))
-
                             )}
 
                         </div>
@@ -168,7 +166,6 @@ function Dashboard() {
                             {attentionProjects.length === 0 ? (
                                 <p>No Projects Need Attention</p>
                             ) : (
-
                                 attentionProjects.map((project) => (
 
                                     <div
@@ -177,9 +174,7 @@ function Dashboard() {
                                     >
 
                                         <div className="dashboard-project-header dashboard-attention-header">
-
                                             <h3>{project.name}</h3>
-
                                         </div>
 
                                         <div className="dashboard-project-info">
@@ -204,7 +199,6 @@ function Dashboard() {
                                     </div>
 
                                 ))
-
                             )}
 
                         </div>
