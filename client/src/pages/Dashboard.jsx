@@ -1,194 +1,222 @@
+import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import "./Dashboard.css";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react"; // ! To check for the access token
-import api from "../api/axios";
+
+import {
+    getTotalProjects,
+    getCompletedProjects,
+    getAttentionProjects,
+    getOngoingProjects,
+    getAttentionProjectsList
+} from "../api/services/dashboardService";
 
 function Dashboard() {
-  const navigate = useNavigate();
-  useEffect(()=> {
-    const token = localStorage.getItem("accessToken");
-    if(!token) {
-      navigate("/")
-    }
-  },[navigate]) // ? [] so that it runs only once
 
+    const navigate = useNavigate();
 
-  useEffect(() => {
+    // Authentication check
+    useEffect(() => {
+        const token = localStorage.getItem("accessToken");
 
-    const testAPI = async () => {
-        try {
-            const response = await api.get("/api/projectPage/showProjects");
-            console.log(response.data);
-        } catch (err) {
-            console.log(err);
+        if (!token) {
+            navigate("/");
         }
-    };
+    }, [navigate]);
 
-    testAPI();
+    // Dashboard States
+    const [totalProjects, setTotalProjects] = useState(0);
+    const [completedProjects, setCompletedProjects] = useState(0);
+    const [attentionProjectsCount, setAttentionProjectsCount] = useState(0);
 
-}, []);
+    const [ongoingProjects, setOngoingProjects] = useState([]);
+    const [attentionProjects, setAttentionProjects] = useState([]);
 
+    // Fetch Dashboard Data
+    useEffect(() => {
 
-  const ongoingProjects = [
-    {
-      title: "Website Redesign",
-      due: "15 June",
-      team: "Frontend Team",
-      priority: "Medium"
-    },
-    {
-      title: "Mobile App",
-      due: "22 June",
-      team: "Backend Team",
-      priority: "Low"
-    }
-  ];
+        const fetchDashboard = async () => {
 
-  const attentionProjects = [
-    {
-      title: "API Integration",
-      due: "10 June",
-      team: "DevOps Team",
-      priority: "High"
-    },
-    {
-      title: "Testing",
-      due: "12 June",
-      team: "QA Team",
-      priority: "Critical"
-    }
-  ];
+            try {
 
-  return (
-    <div className="dashboard">
+                const [
+                    total,
+                    completed,
+                    attention,
+                    ongoing,
+                    attentionList
+                ] = await Promise.all([
+                    getTotalProjects(),
+                    getCompletedProjects(),
+                    getAttentionProjects(),
+                    getOngoingProjects(),
+                    getAttentionProjectsList()
+                ]);
 
-      <Sidebar />
+                setTotalProjects(total.data.ans);
+                setCompletedProjects(completed.data.ans);
+                setAttentionProjectsCount(attention.data.ans);
 
-      <div className="main">
+                setOngoingProjects(ongoing.data);
+                setAttentionProjects(attentionList.data);
 
-        <Navbar />
+            } catch (err) {
+                console.log(err);
+            }
 
-        <div className="content">
+        };
 
-          <h1>Dashboard</h1>
+        fetchDashboard();
 
-          {/* Statistics Cards */}
+    }, []);
 
-          <div className="cards">
+    return (
+        <div className="dashboard">
 
-            <div className="card total">
-              <h3>Total Projects</h3>
-              <p>24</p>
-            </div>
+            <Sidebar />
 
-            <div className="card completed">
-              <h3>Completed</h3>
-              <p>18</p>
-            </div>
+            <div className="main">
 
-            <div className="card attention">
-              <h3>Attention Needed</h3>
-              <p>6</p>
-            </div>
+                <Navbar />
 
-          </div>
+                <div className="content">
 
-          {/* Projects Section */}
+                    <h1>Dashboard</h1>
 
-          <div className="dashboard-projects-section">
+                    {/* Statistics Cards */}
 
-            {/* Ongoing Projects */}
+                    <div className="cards">
 
-            <div className="dashboard-project-column">
+                        <div className="card total">
+                            <h3>Total Projects</h3>
+                            <p>{totalProjects}</p>
+                        </div>
 
-              <h2>Ongoing Projects</h2>
+                        <div className="card completed">
+                            <h3>Completed</h3>
+                            <p>{completedProjects}</p>
+                        </div>
 
-              {ongoingProjects.map((project, index) => (
+                        <div className="card attention">
+                            <h3>Attention Needed</h3>
+                            <p>{attentionProjectsCount}</p>
+                        </div>
 
-                <div
-                  className="dashboard-project-card dashboard-ongoing-card"
-                  key={index}
-                >
+                    </div>
 
-                  <div className="dashboard-project-header dashboard-ongoing-header">
+                    {/* Projects Section */}
 
-                    <h3>{project.title}</h3>
+                    <div className="dashboard-projects-section">
 
-                  </div>
+                        {/* Ongoing Projects */}
 
-                  <div className="dashboard-project-info">
+                        <div className="dashboard-project-column">
 
-                    <p>
-                      <strong>Due:</strong> {project.due}
-                    </p>
+                            <h2>Ongoing Projects</h2>
 
-                    <p>
-                      <strong>Team:</strong> {project.team}
-                    </p>
+                            {ongoingProjects.length === 0 ? (
+                                <p>No Ongoing Projects</p>
+                            ) : (
 
-                    <p>
-                      <strong>Priority:</strong> {project.priority}
-                    </p>
+                                ongoingProjects.map((project) => (
 
-                  </div>
+                                    <div
+                                        className="dashboard-project-card dashboard-ongoing-card"
+                                        key={project.id}
+                                    >
+
+                                        <div className="dashboard-project-header dashboard-ongoing-header">
+
+                                            <h3>{project.name}</h3>
+
+                                        </div>
+
+                                        <div className="dashboard-project-info">
+
+                                            <p>
+                                                <strong>Due:</strong>{" "}
+                                                {new Date(project.end_date).toLocaleDateString()}
+                                            </p>
+
+                                            <p>
+                                                <strong>Status:</strong>{" "}
+                                                {project.status}
+                                            </p>
+
+                                            <p>
+                                                <strong>Priority:</strong>{" "}
+                                                {project.priority}
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+                                ))
+
+                            )}
+
+                        </div>
+
+                        {/* Attention Needed */}
+
+                        <div className="dashboard-project-column">
+
+                            <h2>Attention Needed</h2>
+
+                            {attentionProjects.length === 0 ? (
+                                <p>No Projects Need Attention</p>
+                            ) : (
+
+                                attentionProjects.map((project) => (
+
+                                    <div
+                                        className="dashboard-project-card dashboard-attention-card"
+                                        key={project.id}
+                                    >
+
+                                        <div className="dashboard-project-header dashboard-attention-header">
+
+                                            <h3>{project.name}</h3>
+
+                                        </div>
+
+                                        <div className="dashboard-project-info">
+
+                                            <p>
+                                                <strong>Due:</strong>{" "}
+                                                {new Date(project.end_date).toLocaleDateString()}
+                                            </p>
+
+                                            <p>
+                                                <strong>Status:</strong>{" "}
+                                                {project.status}
+                                            </p>
+
+                                            <p>
+                                                <strong>Priority:</strong>{" "}
+                                                {project.priority}
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+                                ))
+
+                            )}
+
+                        </div>
+
+                    </div>
 
                 </div>
 
-              ))}
-
             </div>
-
-            {/* Attention Needed */}
-
-            <div className="dashboard-project-column">
-
-              <h2>Attention Needed</h2>
-
-              {attentionProjects.map((project, index) => (
-
-                <div
-                  className="dashboard-project-card dashboard-attention-card"
-                  key={index}
-                >
-
-                  <div className="dashboard-project-header dashboard-attention-header">
-
-                    <h3>{project.title}</h3>
-
-                  </div>
-
-                  <div className="dashboard-project-info">
-
-                    <p>
-                      <strong>Due:</strong> {project.due}
-                    </p>
-
-                    <p>
-                      <strong>Team:</strong> {project.team}
-                    </p>
-
-                    <p>
-                      <strong>Priority:</strong> {project.priority}
-                    </p>
-
-                  </div>
-
-                </div>
-
-              ))}
-
-            </div>
-
-          </div>
 
         </div>
-
-      </div>
-
-    </div>
-  );
+    );
 }
 
 export default Dashboard;
