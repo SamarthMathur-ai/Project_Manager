@@ -76,7 +76,13 @@ function About() {
     <li>🎨 CSS3</li>
     <li>🟢 Node.js</li>
     <li>🚀 Express.js</li>
-    <li>🍃 MongoDB</li>
+    <li>🟨 JavaScript</li>
+    <li> 🐬 MySQL</li>
+    <li>🔐 JWT Authentication</li>  
+    <li>📡 Axios </li>
+    <li>🐳 Docker</li>
+    <li>🌿 Git</li> 
+    <li>🐙 GitHub</li>
   </ul>
 
 </div>
