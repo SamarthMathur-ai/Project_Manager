@@ -1,9 +1,31 @@
 import db from '../config/dbConnection.js'
 
-// !1.  Showing subtasks
+// !0. Show Project detail // done
+const showProject = async (projectId) => {
+    const sql = `
+        SELECT * FROM projects WHERE id = ?
+    `
+
+    const [table] = await db.query(sql,[
+        projectId
+    ])
+
+    return table;
+}
+
+// !1.  Showing subtasks // done
 const showSubtasks = async (projectId) => {
     const sql = `
-        SELECT * FROM Subtasks sb
+        SELECT 
+            sb.id AS subtask_id,   -- Unique ID for the subtask
+            sb.name AS subtask_name,
+            t.name AS task_name,
+            t.id AS task_id,       -- Unique ID for the task
+            p.id AS project_id,    -- Unique ID for the project
+            sb.start_date, 
+            sb.end_date, 
+            sb.status
+        FROM Subtasks sb
         JOIN tasks t
         ON sb.task_id = t.id
         JOIN projects p
@@ -50,7 +72,7 @@ const showTask = async (projectId) => {
 }
 
 
-// !4. Showing team members
+// !4. Showing team members // done
 const showTeamMemb = async (userId) => {
     const sql = `
         SELECT * FROM team_members WHERE user_id = ?
@@ -63,7 +85,7 @@ const showTeamMemb = async (userId) => {
 }
 
 
-// !5. Adding team member to subtasks
+// !5. Adding team member to subtasks // done
 const addTeamSub = async (subTaskId, teamMemberId) => {
     const sql = `
         INSERT INTO subtasks_assignees
@@ -80,6 +102,19 @@ const addTeamSub = async (subTaskId, teamMemberId) => {
     return table.insertId;
 }
 
+
+// !5.5 Deleting team member from subtasks // done
+const delTeamSub = async (subTaskId, teamMemberId) => {
+    const sql = `
+        DELETE FROM subtasks_asSignees
+        WHERE subtask_id = ? AND team_member_id = ?
+    `
+    const [table] = await db.query(sql,[
+        subTaskId,
+        teamMemberId
+    ])
+    return table.affectedRows;
+}
 
 // !6. Adding Subtasks
 const addSubTask = async (name, taskId, startDate, endDate, status) => {
@@ -101,7 +136,7 @@ const addSubTask = async (name, taskId, startDate, endDate, status) => {
 }
 
 
-// !7. Deleting subtask
+// !7. Deleting subtask // done
 const delSubTask = async (subtaskId) => {
     const sql = `
         DELETE FROM Subtasks
@@ -115,7 +150,7 @@ const delSubTask = async (subtaskId) => {
     return table.affectedRows;
 }
 
-// !8. Changing status of subtask
+// !8. Changing status of subtask // done
 const chStSub = async (subTaskId, status) => {
     const sql = `
         UPDATE Subtasks
@@ -131,8 +166,23 @@ const chStSub = async (subTaskId, status) => {
     return table.affectedRows;
 }
 
+// !9. To see assigned teammembers for a particular subtasks
+const retrAssTeam = async (subTaskId) => {
+    const sql = `
+        SELECT team_member_id
+        FROM subtasks_assignees
+        WHERE subtask_id = ?
+    `
+    const [table] = await db.query(sql,[
+        subTaskId
+    ])
+    return table;
+}
+
 
 export default {// ? without default we have to specifically mention the function name where this file is imported
+    retrAssTeam,
+    showProject,
     showSubtasks,
     addTask,
     showTask,
@@ -140,5 +190,6 @@ export default {// ? without default we have to specifically mention the functio
     addTeamSub,
     addSubTask,
     delSubTask,
-    chStSub
+    chStSub,
+    delTeamSub
 } 

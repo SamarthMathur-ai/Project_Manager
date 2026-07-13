@@ -70,7 +70,7 @@ const insertTask = async (req, res) => {
 
 // ! To change the status of the project
 const changeStatus = async (req,res) => {
-    const {projectId, status} = req.body;
+    const {projectId, status} = req.params;
     // ! make this change in all if you have time that is.
     
     try {

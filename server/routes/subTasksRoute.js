@@ -10,7 +10,7 @@ router.get("/showTasks", subTasksController.showTasks);
 router.post("/addTask", subTasksController.addTask);
 
 // ! Route for showing subtasks
-router.get("/showSubTasks", subTasksController.showSubTasks);
+router.get("/showSubTasks/:projectId", subTasksController.showSubTasks);
 
 // ! Route for adding subtask
 router.post("/addSubTask", subTasksController.insertSubTask);
@@ -19,12 +19,18 @@ router.post("/addSubTask", subTasksController.insertSubTask);
 router.get("/showTeamMembers", subTasksController.showTeamMembers);
 
 // ! Route for adding a Team member to subtask
-router.post("/addTeamMembSub", subTasksController.addTeamToSubtasks);
+router.post("/addTeamMembSub/subtask/:subTaskId/member/:teamMemberId", subTasksController.addTeamToSubtasks);
+
+// ! Route for deleting a Team member to subtask
+router.delete('/delTeamMembSub/subtask/:subTaskId/member/:teamMemberId', subTasksController.delTeamToSubtasks);
 
 // ! Route for deleting a subtask
-router.delete("/delSubTask", subTasksController.deleteSubTask);
+router.delete("/delSubTask/:subTaskId", subTasksController.deleteSubTask);
 
 // ! Route for changing status of a subtask
-router.post("/changeStatusSub", subTasksController.changingStatusSubTask);
+router.post("/changeStatusSub/subtask/:subTaskId/status/:status", subTasksController.changingStatusSubTask);
+
+// ! To get assigned team member
+router.get("/getAssignedMemb/:subTaskId", subTasksController.shassteam);
 
 export default router;

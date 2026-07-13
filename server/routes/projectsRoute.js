@@ -13,7 +13,7 @@ router.post("/addProject", projectsController.insertProject);
 router.post("/addTask", projectsController.insertTask);
 
 // ! Route to change status of a project
-router.patch("/changeStatus", projectsController.changeStatus);
+router.patch("/changeStatus/project/:projectId/status/:status", projectsController.changeStatus);
 
 // ! Router to see active projects
 router.get('/showActProjects', projectsController.activeProj);
@@ -27,6 +27,7 @@ router.get('/showOverProjects', projectsController.overProj)
 // ! Router for search bar
 // ! this is obsolete only make search rouote when you have to query from a large database we already filter beforehand on the basis of user
 router.get('/searchBar', projectsController.searchBar)
+
 
 export default router;
 

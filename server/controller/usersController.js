@@ -77,7 +77,7 @@ const login = async (req,res) => {
 // * We have the option to invalidate the refresh token.
 
 function generateAccessToken(user) {
-    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '5m'})
+    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '15m'})
 }
 
 

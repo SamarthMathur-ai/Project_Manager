@@ -1,98 +1,159 @@
-import { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom"; // ! We need useParams hook to grab the ID that React Router captured from the URL
 import { Trash2 } from "lucide-react";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
+import { fetchSubtasks, deleteSubtasks, manifestTeamMembers, manifestAssignedMemb, addMemberSubTask, delMemberSubTask, chngSubStatus, chngProjStatus } from "../api/services/projectService.js";
 import "./ProjectDetails.css";
 
 function ProjectDetails() {
-
     const { id } = useParams();
     const navigate = useNavigate();
+    // FIX: backend returns project fields FLAT on the object (no "project" wrapper),
+    // and the subtasks array is attached as "subTasks" (capital T) — matched here.
+    const [data, setData] = useState({ subTasks: [] });
+    const [loading, setLoading] = useState(true);
+    const [teammates, setTeammate] = useState([]);
+    const [assigned, setAssigned] = useState([]);
+    
+   
 
-    const [projectStatus, setProjectStatus] = useState("Ongoing");
+    useEffect(()=> {
+        const getSubProjects = async()=>{
+            try {
+                setLoading(true);
+                const respProjSubTask = await fetchSubtasks(id);
+                const respTeamMember = await manifestTeamMembers();
+                
+                console.log(respTeamMember.data);
+                console.log(respProjSubTask.data);
+                
+                setData(respProjSubTask.data); // data.name, data.priority, ... and data.subTasks
+                setTeammate(respTeamMember.data);
+                
+            } catch (error) {
+                console.error("Error fetching data:", error)
+            } finally {
+                setLoading(false);
+            }
+        }
+        getSubProjects();
+    }, [id])
 
-    const teamMembers = [
-        "Samarth Mathur",
-        "Manasvi Panwar"
-    ];
+    
 
     const [openDropdown, setOpenDropdown] = useState(null);
 
-    const [subtasks, setSubtasks] = useState([
-        {
-            id: 1,
-            name: "Wireframes",
-            task: "UI Design",
-            start: "01-07-2026",
-            end: "05-07-2026",
-            status: "Ongoing",
-            members: ["Samarth Mathur"]
-        },
-        {
-            id: 2,
-            name: "API Setup",
-            task: "Backend",
-            start: "06-07-2026",
-            end: "10-07-2026",
-            status: "Completed",
-            members: ["Samarth Mathur", "Manasvi Panwar"]
-        },
-        {
-            id: 3,
-            name: "Testing",
-            task: "QA",
-            start: "11-07-2026",
-            end: "15-07-2026",
-            status: "Ongoing",
-            members: ["Manasvi Panwar"]
+   
+
+    // FIX: update subTasks in place instead of overwriting the whole data object,
+    // and filter on subtask_id (that's what's passed in from the onClick).
+    const deleteSubtask = async (id) => {
+
+        try {
+            setData(prev => ({
+                ...prev,
+                subTasks: prev.subTasks.filter(task => task.subtask_id !== id)
+            }));
+    
+            const response = await deleteSubtasks(id);
+            console.log(response)
+            console.log("Successfully deleted")
+        } catch (error) {
+            console.log(error);
+            console.log("Not successfully deleted")
         }
-    ]);
+    }
 
-    function deleteSubtask(id) {
 
-        setSubtasks(
-            subtasks.filter(task => task.id !== id)
+    const fetchAssigned = async (subTaskId) => {
+        try {
+            const respAssigned = await manifestAssignedMemb(subTaskId);
+            console.log(respAssigned.data);
+            setAssigned(Array.isArray(respAssigned.data) ? respAssigned.data : []);
+        } catch (error) {
+            console.log(error);
+            console.log("Something Went Wrong");
+            setAssigned([]);
+        }
+    }
+
+
+    const addMembSub = async (subTaskId,membId) => {
+        try {
+            const affixMembSub = await addMemberSubTask(subTaskId, membId);
+            console.log(affixMembSub.data);
+        } catch (error) {
+            console.log(error);
+            console.log("Something Went Wrong");
+        }
+    }
+
+    const delMembSub = async (subTaskId,membId) => {
+        try {
+            const expungeMembSub = await delMemberSubTask(subTaskId, membId);
+            console.log(expungeMembSub.data);
+        } catch (error) {
+            console.log(error);
+            console.log("Something Went Wrong");
+        }
+    }
+
+    const toggleMember = async (subTaskId, memberId, isChecked) => {
+        if (isChecked) {
+            setAssigned(prev => [...prev, {team_member_id: memberId}]);
+            await addMembSub(subTaskId, memberId);
+        } else {
+            setAssigned(prev => prev.filter(a => a.team_member_id!=memberId));
+            await delMembSub(subTaskId, memberId);
+        }
+    }
+
+
+    const handleStatusChange = async (subTaskId, newStatus) => {
+        try {
+            
+            setData(prev => ({
+                ...prev,
+                subTasks: prev.subTasks.map(st=>
+                    st.subtask_id === subTaskId ? { ...st, status: newStatus } : st // * everywhere we are putting the already status in a variable and keeping it.
+                )
+        }));
+    
+           
+            await chngSubStatus(subTaskId, newStatus);
+        } catch (error) {
+            console.error("Failed to update status:", error);
+            
+        }
+    };
+
+    const handleProjStatus = async (projId, newStatus) => {
+        try {
+            setData(prev => ({
+                ...prev,
+                project: {
+                    ...prev.project,
+                    status: newStatus
+                }
+            }))
+            await chngProjStatus(projId, newStatus)
+        } catch (error) {
+            console.error('Failed to update status:', error)
+        }
+    }
+
+
+
+    if(loading) {
+        return (
+          <div className="project-details-page">
+            <Sidebar />
+            <div className="PD-main">
+              <div style={{ padding: "50px", textAlign: "center" }}>Loading your projects...</div>
+            </div>
+          </div> 
         );
-
-    }
-
-    function updateStatus(index, value) {
-
-        const updated = [...subtasks];
-
-        updated[index].status = value;
-
-        setSubtasks(updated);
-
-    }
-
-    function toggleMember(taskId, member) {
-
-        const updated = subtasks.map(task => {
-
-            if (task.id !== taskId) return task;
-
-            if (task.members.includes(member)) {
-
-                return {
-                    ...task,
-                    members: task.members.filter(
-                        m => m !== member
-                    )
-                };
-
-            }
-
-            return {
-                ...task,
-                members: [...task.members, member]
-            };
-
-        });
-
-        setSubtasks(updated);
-
     }
 
     return (
@@ -107,7 +168,7 @@ function ProjectDetails() {
 
                 <div className="PD-content">
 
-                    <h1>PROJECT : Website Redesign</h1>
+                    <h1>{data.project.name}</h1>
 
                     {/* PROJECT INFO */}
 
@@ -115,9 +176,9 @@ function ProjectDetails() {
 
                         <thead>
                             <tr>
-                                <th>Status</th>
+                                <th>{data.project.status}</th>
                                 <th>Priority</th>
-                                <th>Start Date</th>
+                                <th>Starting Date</th>
                                 <th>End Date</th>
                             </tr>
                         </thead>
@@ -129,24 +190,20 @@ function ProjectDetails() {
                                 <td>
 
                                     <select
-                                        value={projectStatus}
-                                        onChange={(e) =>
-                                            setProjectStatus(
-                                                e.target.value
-                                            )
-                                        }
+                                        value={data.project.status}
+                                        onChange={(e) => handleProjStatus(data.project.id, e.target.value)}
                                     >
-                                        <option>Ongoing</option>
-                                        <option>Completed</option>
+                                        <option value="Ongoing">Ongoing</option>
+                                        <option value="Completed">Completed</option>
                                     </select>
 
                                 </td>
 
-                                <td>High</td>
+                                <td>{data.project.priority}</td>
 
-                                <td>01-06-2026</td>
+                                <td>{data.project.starting_date}</td>
 
-                                <td>31-08-2026</td>
+                                <td>{data.project.end_date}</td>
 
                             </tr>
 
@@ -177,31 +234,26 @@ function ProjectDetails() {
 
                         <tbody>
 
-                            {subtasks.map((task, index) => (
+                            {data?.subTasks?.map((subtask) => (
 
-                                <tr key={task.id}>
+                                <tr key={subtask.subtask_id}>
 
-                                    <td>{task.name}</td>
+                                    <td>{subtask.subtask_name}</td>
 
-                                    <td>{task.task}</td>
+                                    <td>{subtask.task_name}</td>
 
-                                    <td>{task.start}</td>
+                                    <td>{subtask.start_date}</td>
 
-                                    <td>{task.end}</td>
+                                    <td>{subtask.end_date}</td>
 
                                     <td>
 
                                         <select
-                                            value={task.status}
-                                            onChange={(e) =>
-                                                updateStatus(
-                                                    index,
-                                                    e.target.value
-                                                )
-                                            }
+                                            value={subtask.status}
+                                            onChange={(e)=>handleStatusChange(subtask.subtask_id, e.target.value)}
                                         >
-                                            <option>Ongoing</option>
-                                            <option>Completed</option>
+                                            <option value="Ongoing">Ongoing</option>
+                                            <option value="Completed">Completed</option>
                                         </select>
 
                                     </td>
@@ -210,12 +262,15 @@ function ProjectDetails() {
 
                                         <button
                                             className="member-btn"
-                                            onClick={() =>
+                                            onClick={() => {
+                                                fetchAssigned(subtask.subtask_id);
                                                 setOpenDropdown(
-                                                    openDropdown === task.id
+                                                    openDropdown === subtask.subtask_id
                                                         ? null
-                                                        : task.id
+                                                        : subtask.subtask_id
                                                 )
+                                            }
+                                                
                                             }
                                         >
                                             + Members
@@ -223,38 +278,26 @@ function ProjectDetails() {
 
                                         {
 
-                                            openDropdown === task.id && (
-
+                                            openDropdown === subtask.subtask_id && (
                                                 <div className="member-dropdown">
-
                                                     {
-
-                                                        teamMembers.map(member => (
-
-                                                            <label key={member}>
-
+                                                         teammates.map(member => (
+                                                            <label key={member.id}>
                                                                 <input
                                                                     type="checkbox"
                                                                     checked={
-                                                                        task.members.includes(member)
-                                                                    }
-                                                                    onChange={() =>
-                                                                        toggleMember(
-                                                                            task.id,
-                                                                            member
+                                                                        assigned.some(
+                                                                            a => a.team_member_id === member.id
                                                                         )
                                                                     }
+                                                                    onChange={(e) => toggleMember( subtask.subtask_id, member.id, e.target.checked)}
                                                                 />
-
-                                                                {member}
-
+                                                                {member.name}
                                                             </label>
-
                                                         ))
-
                                                     }
-
-                                                </div>
+                                                </div>//             //         type="checkbox"
+         
 
                                             )
 
@@ -264,7 +307,7 @@ function ProjectDetails() {
 
                                             {
 
-                                                task.members.map(member => (
+                                                subtask.members?.map(member => (
 
                                                     <span
                                                         className="pill"
@@ -286,7 +329,7 @@ function ProjectDetails() {
                                         <button
                                             className="delete-btn"
                                             onClick={() =>
-                                                deleteSubtask(task.id)
+                                                deleteSubtask(subtask.subtask_id)
                                             }
                                         >
                                             <Trash2 size={18}/>

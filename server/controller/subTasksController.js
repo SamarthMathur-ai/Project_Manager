@@ -1,8 +1,8 @@
 import subTasksModel from "../models/subTasksModel.js";
 
-// ! Show subtasks
+// ! Show subtasks // done
 const showSubTasks = async (req, res) => {
-    const {projectId} = req.body;
+    const {projectId} = req.params; // * Getting the id from the url not from the body llike userId
     try {
         if (!projectId) { 
             return res.status(400).json({ // ? 400 is bad request error when user makes a bad request 
@@ -10,7 +10,11 @@ const showSubTasks = async (req, res) => {
             });
         }
         const table = await subTasksModel.showSubtasks(projectId);
-        return res.status(200).json(table)
+        const project = await subTasksModel.showProject(projectId);
+        return res.status(200).json({
+            project: project[0],
+            subTasks: table
+        })
     } catch (error) {
         console.log(error);
         return res.status(500).json({error: error.message});
@@ -96,7 +100,7 @@ const showTeamMembers = async (req, res)=> {
 
 // ! Adding team members to subtask
 const addTeamToSubtasks = async (req, res)=> {
-    const {subTaskId, teamMemberId} = req.body;
+    const {subTaskId, teamMemberId} = req.params;
     if(!subTaskId || !teamMemberId) {
         return res.status(400).json({message: "Enter valid credentials."});
     }
@@ -110,15 +114,31 @@ const addTeamToSubtasks = async (req, res)=> {
 }
 
 
+//! Deleting team members to subtask
+const delTeamToSubtasks = async (req, res)=> {
+    const {subTaskId, teamMemberId} = req.params;
+    if(!subTaskId || !teamMemberId) {
+        return res.status(400).json({message: "Enter valid credentials."});
+    }
+    try {
+        const result = await subTasksModel.delTeamSub(subTaskId, teamMemberId);
+        res.status(201).json({message: "Team member successfully deleted."})
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({error: error.message})        
+    }
+}
 
-// ! Deleting the subtask
+
+
+// ! Deleting the subtask //done
 const deleteSubTask = async (req, res)=> {
-    const {subtaskId} = req.body;
-    if(!subtaskId) {
+    const {subTaskId} = req.params;
+    if(!subTaskId) {
         return res.status(400).json({message: "Enter valid subtaskId."});
     }
     try {
-        const result = await subTasksModel.delSubTask(subtaskId);
+        const result = await subTasksModel.delSubTask(subTaskId);
         res.status(204).json({message: "Subtask deleted successfully."})
     } catch (error) {
         console.log(error);
@@ -127,9 +147,9 @@ const deleteSubTask = async (req, res)=> {
 }
 
 
-// ! Changing status of subtask
+// ! Changing status of subtask // done
 const changingStatusSubTask = async (req, res) => {
-    const {subTaskId, status} = req.body;
+    const {subTaskId, status} = req.params;
     if(!subTaskId || !status) {
         return res.status(400).json({message: "Enter valid credentials."});
     }
@@ -149,9 +169,27 @@ const changingStatusSubTask = async (req, res) => {
     }
 }
 
-
+// ! showing assigned team member
+const shassteam = async (req, res) => {
+    console.log("1. Controller reached");
+    const {subTaskId} = req.params;
+    console.log(`Subtask id is ${subTaskId}`)
+    if(!subTaskId) {
+        return res.status(400).json({message: "Subtask id is not correct"});
+    }
+    console.log("if statement crossed");
+    try {
+        const result = await subTasksModel.retrAssTeam(subTaskId);
+        console.log(result);
+        return res.status(200).json(result)
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({error:error.message});
+    }
+}
 
 export default {
+    shassteam,
     showSubTasks,
     insertSubTask,
     showTasks,
@@ -159,5 +197,6 @@ export default {
     showTeamMembers,
     addTeamToSubtasks,
     deleteSubTask,
-    changingStatusSubTask
+    changingStatusSubTask,
+    delTeamToSubtasks
 }

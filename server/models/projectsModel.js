@@ -1,7 +1,7 @@
 import db from '../config/dbConnection.js';
 
 
-// ! Showing projects
+// ! Showing projects // done
 const showProjects = async (userId)=> {
     const sql = `
         SELECT * FROM projects WHERE user_id = ?
@@ -12,7 +12,7 @@ const showProjects = async (userId)=> {
     return result;
 }
 
-// ! Adding Projects 
+// ! Adding Projects // done
 const addProject = async (name, image_path, starting_date, end_date, status, priority, id) => {
     const sql = `
         INSERT INTO projects (name, image_path, starting_date, end_date, status, priority, user_id)
@@ -50,7 +50,7 @@ const addTask = async (name, projectId)=> {
     return result.insertId;
 }
 
-// ! Changing the status of the project
+// ! Changing the status of the project // done
 const changeStatus = async (projectId,status) => {
     const sql = `
         UPDATE projects
