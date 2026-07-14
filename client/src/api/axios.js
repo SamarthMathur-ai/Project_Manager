@@ -35,7 +35,7 @@ api.interceptors.response.use(
                 const refreshToken = localStorage.getItem("refreshToken");
 
                 // *2. Call your backend route to get a new access token
-                const response = await api.post('/newRefreshToken', {token: refreshToken});
+                const response = await axios.post("http://localhost:3000/auth/newRefreshToken", {token: refreshToken});
                 const {accessToken} = response.data;
 
                 // *3. Save the new access token

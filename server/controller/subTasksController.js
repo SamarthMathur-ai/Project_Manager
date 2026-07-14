@@ -13,7 +13,7 @@ const showSubTasks = async (req, res) => {
         const project = await subTasksModel.showProject(projectId);
         return res.status(200).json({
             project: project[0],
-            subTasks: table
+            subTasks: table,
         })
     } catch (error) {
         console.log(error);
@@ -22,7 +22,7 @@ const showSubTasks = async (req, res) => {
 }
 
 
-// ! Insert a subtask
+// ! Insert a subtask 
 const insertSubTask = async(req, res) => {
     const {name, taskId, startDate, endDate, status} = req.body;
     if(!name || name.trim()==="") {
@@ -48,9 +48,9 @@ const insertSubTask = async(req, res) => {
 }
 
 
-// ! Showing the task
+// ! Showing the task //done
 const showTasks = async(req,res) => {
-    const {projectId} = req.body;
+    const {projectId} = req.params;
     try {
         if (!projectId) { 
             return res.status(400).json({ // ? 400 is bad request error when user makes a bad request 
@@ -66,7 +66,7 @@ const showTasks = async(req,res) => {
 }
 
 
-// ! Adding task 
+// ! Adding task // done
 const addTask = async(req,res) => {
     const {name, projectId} = req.body;
     if(!name || name.trim()==="") {
@@ -77,7 +77,7 @@ const addTask = async(req,res) => {
     }
     try {
         const table = await subTasksModel.addTask(name, projectId);
-        return res.status(201).json({message: "Subtask successfully created."})
+        return res.status(201).json({message: "Subtask successfully created.", insertId: table})
     } catch (error) {
         console.log(error);
         return res.status(500).json({error: error.message});

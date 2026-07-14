@@ -1,7 +1,5 @@
 import db from "../config/dbConnection.js";
 
-
-
 const createUser = async (username, email, hashedPassword, name) => {
 
     

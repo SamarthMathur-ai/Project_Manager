@@ -50,5 +50,73 @@ button{
     cursor: pointer;
 }
 button:hover{
-    background: #19376d;
+    background: #254a8e;
+    /* Lighter shade for hover effect */
+    transition: background 0.3s ease;
+    /* Smooths the transition */
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: #19376d;
+    box-shadow: 0 0 4px rgba(25, 55, 109, 0.2);
+}
+
+.form-card h2 {
+    margin: 0 0 10px 0;
+    color: #19376d;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.dropdown-container {
+    position: relative;
+    /* This makes the dropdown stay inside this container */
+    width: 100%;
+}
+
+
+
+.task-dropdown {
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    background: white;
+    padding: 10px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    /* Force items to stack vertically */
+    gap: 8px;
+    /* Add space between items */
+    min-width: 200px;
+}
+
+.task-dropdown label {
+    display: flex;
+    align-items: center;
+    /* Vertically align checkbox and text */
+    cursor: pointer;
+}
+
+.task-dropdown input {
+    margin-right: 10px;
+    /* Add space between checkbox and text */
+}
+
+.task-dropdown {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Adds depth to the pop-up */
+    border-radius: 8px;
+    margin-top: 5px;
+}
+
+@media (max-width: 500px) {
+    .form-card {
+        width: 90%;
+        /* Form shrinks to fit small screens */
+    }
 }

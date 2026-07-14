@@ -157,6 +157,18 @@ const searchBar = async (req, res) =>  {
     }
 }
 
+
+// ! getting normal name
+const name = async (req, res) => {
+    const id = req.user.id
+    try {
+        const user = await projectsModel.name(id);
+        return res.status(200).json({name: user.name})
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({error: error.message})
+    }
+}
 export default {
     showProjects,
     insertProject,
@@ -165,5 +177,6 @@ export default {
     activeProj,
     compProj,
     overProj,
-    searchBar
+    searchBar,
+    name
 }

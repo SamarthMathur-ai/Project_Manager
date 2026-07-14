@@ -14,7 +14,7 @@ function authenticateToken(req,res,next) {
 
     // * now we have a token and now we want to verify if we have a valid token.
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err,user) => {
-        if (err) return res.sendStatus(403); // * Here it means we have the token but the token is no longer valid
+        if (err) return res.sendStatus(401); // * Here it means we have the token but the token is no longer valid
         // * otherwise we have a valid token
         // * hence the user will be rerouted
         req.user = user; // * this is a payload but not the payload we created earlier

@@ -77,7 +77,7 @@ const login = async (req,res) => {
 // * We have the option to invalidate the refresh token.
 
 function generateAccessToken(user) {
-    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '15m'})
+    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '2m'})
 }
 
 
@@ -123,7 +123,7 @@ const handleRefreshToken = async (req,res)=>{
 // ! logout
 const logout = async (req,res)=>{
     try {
-        const refreshToken = req.body.token;
+        const refreshToken = req.body.refreshToken;
         console.log("-> Received from Client:", refreshToken);
     
         await userModel.refreshTokenToNull(refreshToken);
@@ -133,6 +133,7 @@ const logout = async (req,res)=>{
         res.status(501).json({error:error.message})
     }
 }
+
 
 
 export default {

@@ -4,7 +4,7 @@ import subTasksController from '../controller/subTasksController.js'
 const router = express.Router();
 
 // ! Route for showing tasks
-router.get("/showTasks", subTasksController.showTasks);
+router.get("/showTasks/project/:projectId", subTasksController.showTasks);
 
 // ! Route for adding task
 router.post("/addTask", subTasksController.addTask);

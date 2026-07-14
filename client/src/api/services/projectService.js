@@ -43,3 +43,7 @@ export const chngSubStatus = (subTaskId, status) => {
 export const chngProjStatus = (projId, status) => {
     return api.patch(`api/projectPage/changeStatus/project/${projId}/status/${status}`)
 }
+
+export const name = () => {
+    return api.get(`api/projectPage/name`)
+}

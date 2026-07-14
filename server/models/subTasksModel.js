@@ -43,7 +43,7 @@ const showSubtasks = async (projectId) => {
 // ! Showing attention needed subtasks
 // ! will make this in frontend only.
 
-// !2.  Adding Tasks
+// !2.  Adding Tasks // done
 const addTask = async (name, projectId)=> {
     const sql = `
         INSERT INTO tasks (name, project_id)
@@ -60,7 +60,7 @@ const addTask = async (name, projectId)=> {
 }
 
 
-// !3. Showing Tasks
+// !3. Showing Tasks // done
 const showTask = async (projectId) => {
     const sql = `
         SELECT * FROM tasks WHERE project_id = ?
@@ -116,7 +116,7 @@ const delTeamSub = async (subTaskId, teamMemberId) => {
     return table.affectedRows;
 }
 
-// !6. Adding Subtasks
+// !6. Adding Subtasks // done
 const addSubTask = async (name, taskId, startDate, endDate, status) => {
     const sql = `
         INSERT INTO Subtasks (name, task_id, start_date, end_date, status)

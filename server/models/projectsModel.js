@@ -128,6 +128,17 @@ const searchbar = async (userId, name) => {
 }
 
 
+// ! to get normal name of user
+const name = async (userId) => {
+    const sql = `
+        SELECT name FROM user WHERE id = ?
+    `
+    const [result] = await db.query(sql,[
+        userId
+    ]);
+    return result[0]
+}
+
 export default {
     showProjects,
     addProject,
@@ -136,7 +147,8 @@ export default {
     seeActive,
     seeCompleted,
     seeOverdue,
-    searchbar
+    searchbar,
+    name
 }
 
 
