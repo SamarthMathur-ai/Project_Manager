@@ -90,3 +90,10 @@ form{
 .submit-btn:hover{
     background: #0f2448;
 }
+.error{
+    color: #e63946;
+    font-size: 0.85rem;
+    margin-top: 5px;
+    margin-left: 3px;
+    font-weight: 500;
+}

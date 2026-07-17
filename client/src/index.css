@@ -98,3 +98,10 @@ body{
   background-color: #09304e;
 
 }
+.error{
+    color: #e63946;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}

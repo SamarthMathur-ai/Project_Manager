@@ -1,50 +1,96 @@
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import "./AddProject.css";
-import {useState} from 'react';
-import api from '../api/axios.js';
+import { useState } from "react";
+import api from "../api/axios.js";
 import InputField from "../components/InputField";
 import { useNavigate } from "react-router-dom";
 
 function AddProjects() {
     const navigate = useNavigate();
+
     const [name, setName] = useState("");
     const [starting_date, setStartDate] = useState("");
     const [end_date, setEndDate] = useState("");
-    const [priority, setPriority] = useState(""); // * Now user may leave it barren
+    const [priority, setPriority] = useState("");
     const [image_path, setImagePath] = useState("");
     const [message, setMessage] = useState("");
-    // * name, image_path, starting_date, end_date, status, priority, id
+    const [errors, setErrors] = useState({});
+
+    // ---------------- Validation ----------------
+
+    const validate = () => {
+        let newErrors = {};
+
+        if (!name.trim()) {
+            newErrors.name = "Project name is required";
+        }
+
+        if (!starting_date) {
+            newErrors.starting_date = "Starting date is required";
+        }
+
+        if (!end_date) {
+            newErrors.end_date = "End date is required";
+        }
+
+        if (
+            starting_date &&
+            end_date &&
+            new Date(end_date) < new Date(starting_date)
+        ) {
+            newErrors.end_date =
+                "End date cannot be earlier than the starting date";
+        }
+
+        if (!priority) {
+            newErrors.priority = "Please select a project priority";
+        }
+
+        setErrors(newErrors);
+
+        return Object.keys(newErrors).length === 0;
+    };
+
+    // ---------------- Submit ----------------
+
     const addProjectFunc = async (e) => {
-        e.preventDefault(); // This stops the page from reloading
+        e.preventDefault();
+
+        if (!validate()) return;
+
         try {
             const response = await api.post(
-                '/api/projectPage/addProject',
+                "/api/projectPage/addProject",
                 {
                     name,
                     starting_date,
                     end_date,
-                    priority: priority || "High",
+                    priority,
                     image_path,
-                    status: "Ongoing"
-                },
-            )
+                    status: "Ongoing",
+                }
+            );
+
             console.log(response.data);
-            if(response.status===201) {
+
+            if (response.status === 201) {
                 setMessage("Project Added Successfully");
-                setTimeout(()=>{
-                    navigate('/projects');
-                },3000)
+
+                setTimeout(() => {
+                    navigate("/projects");
+                }, 3000);
             }
         } catch (error) {
-            console.error("Full error object:", error);
+            console.error(error);
+
             setMessage(
                 error.response?.data?.message ||
-                'Something Went Wrong'
+                "Something Went Wrong"
             );
-            console.log(error);
         }
-    }
+    };
+
     return (
         <div className="add-project-page">
 
@@ -62,75 +108,157 @@ function AddProjects() {
 
                         <form onSubmit={addProjectFunc}>
 
+                            {/* Project Name */}
+
                             <div className="input-group">
+
                                 <label>Project Name</label>
+
                                 <InputField
-                                    type = 'text'
-                                    placeholder='Name'
+                                    type="text"
+                                    placeholder="Project Name"
                                     value={name}
-                                    onChange={(e)=>{
-                                        const newValue = e.target.value;
-                                        setName(newValue);
+                                    onChange={(e) => {
+                                        setName(e.target.value);
+
+                                        setErrors({
+                                            ...errors,
+                                            name: ""
+                                        });
                                     }}
                                 />
+
+                                {errors.name && (
+                                    <p className="error">{errors.name}</p>
+                                )}
+
                             </div>
 
+                            {/* Start Date */}
+
                             <div className="input-group">
+
                                 <label>Start Date</label>
+
                                 <InputField
-                                    type='date'
+                                    type="date"
                                     value={starting_date}
-                                    onChange={(e)=>setStartDate(e.target.value)}
+                                    onChange={(e) => {
+                                        setStartDate(e.target.value);
+
+                                        setErrors({
+                                            ...errors,
+                                            starting_date: ""
+                                        });
+                                    }}
                                 />
+
+                                {errors.starting_date && (
+                                    <p className="error">
+                                        {errors.starting_date}
+                                    </p>
+                                )}
+
                             </div>
 
+                            {/* End Date */}
+
                             <div className="input-group">
+
                                 <label>End Date</label>
+
                                 <InputField
-                                    type='date'
+                                    type="date"
                                     value={end_date}
-                                    onChange={(e)=>setEndDate(e.target.value)}
+                                    onChange={(e) => {
+                                        setEndDate(e.target.value);
+
+                                        setErrors({
+                                            ...errors,
+                                            end_date: ""
+                                        });
+                                    }}
                                 />
+
+                                {errors.end_date && (
+                                    <p className="error">
+                                        {errors.end_date}
+                                    </p>
+                                )}
+
                             </div>
 
+                            {/* Priority */}
+
                             <div className="input-group">
+
                                 <label>Priority</label>
+
                                 <select
                                     value={priority}
-                                    onChange={(e)=>{
-                                        const newMessage = e.target.value;
-                                        setPriority(newMessage);
+                                    onChange={(e) => {
+                                        setPriority(e.target.value);
+
+                                        setErrors({
+                                            ...errors,
+                                            priority: ""
+                                        });
                                     }}
-                                    required // ! so they have to select one
                                 >
-                                    <option value="High">High</option>
-                                    <option value="Mid">Mid</option>
-                                    <option value="Low">Low</option>
+                                    <option value="">
+                                        Select Priority
+                                    </option>
+
+                                    <option value="High">
+                                        High
+                                    </option>
+
+                                    <option value="Mid">
+                                        Mid
+                                    </option>
+
+                                    <option value="Low">
+                                        Low
+                                    </option>
+
                                 </select>
+
+                                {errors.priority && (
+                                    <p className="error">
+                                        {errors.priority}
+                                    </p>
+                                )}
+
                             </div>
 
+                            {/* Project Image */}
 
                             <div className="input-group">
+
                                 <label>Project Image</label>
-                                <InputField 
-                                    type="file" 
-                                    onChange={(e)=>{
+
+                                <InputField
+                                    type="file"
+                                    onChange={(e) => {
                                         const file = e.target.files[0];
-                                        const name = file.name;
-                                        setImagePath(name);
+
+                                        if (file) {
+                                            setImagePath(file.name);
+                                        }
                                     }}
                                 />
-                            </div>
-                            
 
-                            <button 
-                                type="submit" 
+                            </div>
+
+                            <button
+                                type="submit"
                                 className="submit-btn"
                             >
                                 Add Project
                             </button>
-                            
-                            <p>{message}</p>
+
+                            {message && <p>{message}</p>}
+
                         </form>
 
                     </div>

@@ -2,51 +2,81 @@ import InputField from "../components/InputField";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import api from "../api/axios.js"
+import api from "../api/axios.js";
 
 function Login() {
     const navigate = useNavigate();
+
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
-    
+
+    const [errors, setErrors] = useState({});
+
+    const validate = () => {
+        let newErrors = {};
+
+        if (!username.trim()) {
+            newErrors.username = "Username is required";
+        }
+
+        if (!password.trim()) {
+            newErrors.password = "Password is required";
+        }
+        else if (password.length < 6) {
+            newErrors.password = "Password must be at least 6 characters";
+        }
+
+        setErrors(newErrors);
+
+        return Object.keys(newErrors).length === 0;
+    };
+
     const handleLogin = async () => {
-        
+
+        if (!validate()) return;
+
         try {
+
             const response = await api.post(
                 "/auth/userLogin",
                 {
                     username,
                     password
                 }
-            )
+            );
 
-            // ! Pasting access and refresh token in local storage
             localStorage.setItem(
                 "accessToken",
                 response.data.accessToken
-            )
+            );
 
             localStorage.setItem(
                 "refreshToken",
                 response.data.refreshToken
-            )
+            );
 
-            console.log(response.data);
-            if(response.status===200) {
+            if (response.status === 200) {
+
                 setMessage("Login Successful. Rerouting to Dashboard.");
-                setTimeout(()=>{
+
+                setTimeout(() => {
                     navigate("/dashboard");
-                },1500)
+                }, 1500);
+
             }
+
         } catch (error) {
+
             setMessage(
                 error.response?.data?.message ||
-                "Something is wrong"
-            )
+                "Invalid username or password."
+            );
+
             console.log(error);
         }
-    }
+    };
+
     return (
         <div className="form-container">
 
@@ -56,19 +86,42 @@ function Login() {
                 type="text"
                 placeholder="Username"
                 value={username}
-                onChange={(e)=>setUsername(e.target.value)}
+                onChange={(e) => {
+                    setUsername(e.target.value);
+
+                    setErrors({
+                        ...errors,
+                        username: ""
+                    });
+                }}
             />
 
+            {errors.username && (
+                <p className="error">{errors.username}</p>
+            )}
 
             <InputField
                 type="password"
                 placeholder="Password"
                 value={password}
-                onChange={(e)=>setPassword(e.target.value)}
-            />
-            
+                onChange={(e) => {
+                    setPassword(e.target.value);
 
-            <button className="btn" onClick={handleLogin}>
+                    setErrors({
+                        ...errors,
+                        password: ""
+                    });
+                }}
+            />
+
+            {errors.password && (
+                <p className="error">{errors.password}</p>
+            )}
+
+            <button
+                className="btn"
+                onClick={handleLogin}
+            >
                 Login
             </button>
 
