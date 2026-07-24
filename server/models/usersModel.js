@@ -26,7 +26,7 @@ const findUserByUsername = async (username) =>{
     const [rows] = await db.query(sql,[
         username
     ])
-    return rows[0];
+    return rows[0]||null;
 };
 
 
@@ -38,7 +38,7 @@ const findUserByRefreshToken = async (refreshToken) => {
     const [table] = await db.query(sql,[
         refreshToken
     ])
-    return table[0];
+    return table[0]||null;
 }
 
 

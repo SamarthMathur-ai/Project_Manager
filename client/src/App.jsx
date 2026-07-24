@@ -11,6 +11,7 @@ import Addmembers from "./pages/Addmembers";
 import AddProjects from "./pages/AddProject";
 import ProjectDetails from "./pages/ProjectDetails";
 import AddSubtask from "./pages/AddSubtask";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -38,41 +39,44 @@ function App() {
           }
         />
 
+        {/*  Protected Routes */}
+        <Route element = {<ProtectedRoute />}>
         {/* Dashboard Page */}
-        <Route
-          path="/dashboard"
-          element={<Dashboard />}
-        />
-        <Route
-           path="/about"
-           element={<About />}
-       />
-       <Route
-          path="/team"
-          element={<Team />}
-        />
-        <Route 
-        path="/Addmembers" 
-        element={<Addmembers />}
-         />
-
-        <Route
-        path="/projects"
-        element={<Projects />}
-        />
-        <Route
-        path="/AddProject"
-        element={<AddProjects />}
-        />
-        <Route 
-        path="/project/:id"
-         element={<ProjectDetails />}
+          <Route
+            path="/dashboard"
+            element={<Dashboard />}
+          />
+          <Route
+            path="/about"
+            element={<About />}
+          />
+          <Route
+            path="/team"
+            element={<Team />}
+          />
+          <Route 
+            path="/Addmembers" 
+            element={<Addmembers />}
           />
 
-        <Route 
-        path="/project/:id/add-subtask"
-         element={<AddSubtask />} 
-         />
+          <Route
+            path="/projects"
+            element={<Projects />}
+          />
+          <Route
+            path="/AddProject"
+            element={<AddProjects />}
+          />
+          <Route 
+            path="/project/:id"
+            element={<ProjectDetails />}
+          />
+
+          <Route 
+            path="/project/:id/add-subtask"
+            element={<AddSubtask />} 
+          />
+        </Route>
 
 
 

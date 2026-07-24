@@ -7,8 +7,8 @@ const TotalProjNum = async (req, res) => {
         const num = await dashboardModel.totalProjNum(id);
         return res.status(200).json({ans: num})
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({error: error.message})
+        console.error(error);
+        return res.status(500).json({message: 'Internal Server Error'})
     }
 }
 
@@ -19,8 +19,8 @@ const CompletedProjNum = async (req,res) => {
         const num = await dashboardModel.compProjNum(id);
         return res.status(200).json({ans: num})
     } catch (err) {
-        console.log(err);
-        return res.status(500).json({error: err.message})
+        console.error(err);
+        return res.status(500).json({message: 'Internal Server Error'})
     }
 }
 
@@ -31,8 +31,8 @@ const AttentionProjNum = async (req,res) => {
         const num = await dashboardModel.attenProjNum(id);
         return res.status(200).json({ans: num})
     } catch (err) {
-        console.log(err);
-        return res.status(500).json({error: err.message})
+        console.error(err);
+        return res.status(500).json({message: 'Internal Server Error'})
     }
 }
 
@@ -43,8 +43,8 @@ const showOngoingProj = async (req, res) => {
         const table = await dashboardModel.showOngProj(id);
         return res.status(200).json(table)
     } catch (err){
-        console.log(err);
-        return res.status(500).json({error: err.message})
+        console.error(err);
+        return res.status(500).json({message: 'Internal Server Error'})
     }
 }
 
@@ -55,8 +55,8 @@ const showAttentionProj = async (req, res) => {
         const table = await dashboardModel.showAttenProj(id);
         return res.status(200).json(table)
     } catch (err){
-        console.log(err);
-        return res.status(500).json({error: err.message})
+        console.error(err);
+        return res.status(500).json({message: 'Internal Server Error'})
     }
 }
 

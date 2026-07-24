@@ -6,43 +6,55 @@ const getAllTeamMember = async (req, res) => {
 
         const team_members = await teamMembersModel.getTeamMembers(id);
 
-        res.status(200).json(team_members);
+        return res.status(200).json(team_members);
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
 
-        res.status(500).json({
-            error: error.message
+        return res.status(500).json({
+            message: "Internal Server Error."
         });
     }
 
 };
 const insertTeamMember = async (req, res) => {
-    console.log("========== INSERT MEMBER ==========");
-    console.log("User:", req.user);
-    console.log("Body:", req.body);
 
     try {
         const { name, role, linkedin_link, image_path } = req.body;
         const userId = req.user.id;
 
+        if(!name || name.trim() === ""){
+            return res.status(400).json({
+                message: "Name is required"
+            })
+        }
+
+        if(!role || role.trim() ==="") {
+            return res.status(400).json({
+                message: "Role is required"
+            });
+        }
+
+        // * Optional Image
+        const imagePath = image_path?.trim() || null;
+
         await teamMembersModel.insertTeamMember(
             name,
             role,
             linkedin_link,
-            image_path,
+            imagePath,
             userId
         );
 
-        res.status(201).json({
+        return res.status(201).json({
             message: "Member Added Successfully"
         });
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
 
-        res.status(500).json({
-            error: error.message
+        return res.status(500).json({
+            message: "Internal Server Error."
         });
     }
 };

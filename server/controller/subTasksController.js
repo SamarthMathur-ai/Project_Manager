@@ -3,21 +3,27 @@ import subTasksModel from "../models/subTasksModel.js";
 // ! Show subtasks // done
 const showSubTasks = async (req, res) => {
     const {projectId} = req.params; // * Getting the id from the url not from the body llike userId
+    if (!projectId) { 
+        return res.status(400).json({ // ? 400 is bad request error when user makes a bad request 
+            message: "projectId is required"
+        });
+    }
     try {
-        if (!projectId) { 
-            return res.status(400).json({ // ? 400 is bad request error when user makes a bad request 
-                message: "projectId is required"
-            });
-        }
         const table = await subTasksModel.showSubtasks(projectId);
         const project = await subTasksModel.showProject(projectId);
+        
+        if (!project || project.length === 0) {
+            return res.status(404).json({
+                message: "Project not found"
+            })
+        }
         return res.status(200).json({
             project: project[0],
             subTasks: table,
         })
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({error: error.message});
+        console.error(error);
+        return res.status(500).json({message: "Internal Server Error"});
     }
 }
 
@@ -25,6 +31,7 @@ const showSubTasks = async (req, res) => {
 // ! Insert a subtask 
 const insertSubTask = async(req, res) => {
     const {name, taskId, startDate, endDate, status} = req.body;
+
     if(!name || name.trim()==="") {
         return res.status(400).json({message :"Enter a valid name"})
     }
@@ -42,8 +49,8 @@ const insertSubTask = async(req, res) => {
         const table = await subTasksModel.addSubTask(name, taskId, startDate, endDate, status);
         return res.status(201).json({message: "Subtask successfully created."})
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({error: error.message});
+        console.error(error);
+        return res.status(500).json({message: "Internal Server Error"});
     }
 }
 
@@ -51,17 +58,17 @@ const insertSubTask = async(req, res) => {
 // ! Showing the task //done
 const showTasks = async(req,res) => {
     const {projectId} = req.params;
+    if (!projectId) { 
+        return res.status(400).json({ // ? 400 is bad request error when user makes a bad request 
+            message: "projectId is required"
+        });
+    }
     try {
-        if (!projectId) { 
-            return res.status(400).json({ // ? 400 is bad request error when user makes a bad request 
-                message: "projectId is required"
-            });
-        }
         const table = await subTasksModel.showTask(projectId);
         return res.status(200).json(table)
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({error: error.message});
+        console.error(error);
+        return res.status(500).json({message: "Internal Server Error"});
     }
 }
 
@@ -79,8 +86,8 @@ const addTask = async(req,res) => {
         const table = await subTasksModel.addTask(name, projectId);
         return res.status(201).json({message: "Subtask successfully created.", insertId: table})
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({error: error.message});
+        console.error(error);
+        return res.status(500).json({message: "Internal Server Error"});
     }
 }
 
@@ -92,8 +99,8 @@ const showTeamMembers = async (req, res)=> {
         const table = await subTasksModel.showTeamMemb(id);
         return res.status(200).json(table);
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({error: error.message});
+        console.error(error);
+        return res.status(500).json({message: "Internal Server Error"});
     }
 }
 
@@ -108,8 +115,8 @@ const addTeamToSubtasks = async (req, res)=> {
         const result = await subTasksModel.addTeamSub(subTaskId, teamMemberId);
         res.status(201).json({message: "Team member successfully added to the subtask."})
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({error: error.message});
+        console.error(error);
+        return res.status(500).json({message: "Internal Server Error."});
     }
 }
 
@@ -124,8 +131,8 @@ const delTeamToSubtasks = async (req, res)=> {
         const result = await subTasksModel.delTeamSub(subTaskId, teamMemberId);
         res.status(201).json({message: "Team member successfully deleted."})
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({error: error.message})        
+        console.error(error);
+        return res.status(500).json({message: "Internal Server Error"})        
     }
 }
 
@@ -141,8 +148,8 @@ const deleteSubTask = async (req, res)=> {
         const result = await subTasksModel.delSubTask(subTaskId);
         res.status(204).json({message: "Subtask deleted successfully."})
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({error: error.message});
+        console.error(error);
+        return res.status(500).json({message: "Internal Server Error"});
     }
 }
 
@@ -164,8 +171,8 @@ const changingStatusSubTask = async (req, res) => {
         const result = await subTasksModel.chStSub(subTaskId, status);
         return res.status(200).json({message: "Status changed successfully."})
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({error: error.message});
+        console.error(error);
+        return res.status(500).json({message: "Internal Server Error"});
     }
 }
 
@@ -183,8 +190,8 @@ const shassteam = async (req, res) => {
         console.log(result);
         return res.status(200).json(result)
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({error:error.message});
+        console.error(error);
+        return res.status(500).json({message: "Internal Server Error"});
     }
 }
 
