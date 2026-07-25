@@ -26,7 +26,7 @@ function Navbar() {
 
 
   const hideNavbar =
-    location.pathname === "/" ||
+    location.pathname === "/login" ||
     location.pathname === "/signup";
 
   if (hideNavbar) return null;

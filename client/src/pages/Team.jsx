@@ -66,14 +66,11 @@ function Team() {
                                 <div className="member-card" key={member.id}>
                                     <div className="member-top">
                                         <div className="member-image">
-                                            <img
-                                                src={
-                                                    member.image_path ||
-                                                    `https://ui-avatars.com/api/?name=${encodeURIComponent(
-                                                        member.name
-                                                    )}`
-                                                }
-                                                alt={member.name}
+                                            <img src={
+                                                 member.image_path
+                                                  ? `/${member.image_path}`
+                                                 : "/default-avatar.jpg"}
+                                                 alt={member.name}
                                             />
                                         </div>
 

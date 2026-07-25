@@ -13,7 +13,7 @@ function AddProjects() {
     const [starting_date, setStartDate] = useState("");
     const [end_date, setEndDate] = useState("");
     const [priority, setPriority] = useState("");
-    const [image_path, setImagePath] = useState("");
+    const [image_path] = useState("default-project-avatar.jpg");
     const [message, setMessage] = useState("");
     const [errors, setErrors] = useState({});
 
@@ -228,25 +228,6 @@ function AddProjects() {
                                         {errors.priority}
                                     </p>
                                 )}
-
-                            </div>
-
-                            {/* Project Image */}
-
-                            <div className="input-group">
-
-                                <label>Project Image</label>
-
-                                <InputField
-                                    type="file"
-                                    onChange={(e) => {
-                                        const file = e.target.files[0];
-
-                                        if (file) {
-                                            setImagePath(file.name);
-                                        }
-                                    }}
-                                />
 
                             </div>
 

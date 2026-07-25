@@ -8,13 +8,11 @@ import "./Addmembers.css";
 
 function Addmembers() {
     const navigate = useNavigate();
-
     const [formData, setFormData] = useState({
-        name: "",
-        role: "",
-        linkedin_link: "",
-        image_path: ""
-    });
+    name: "",
+    role: "",
+    linkedin_link: "",
+    image_path: "default-avatar.jpg"});
 
     const [errors, setErrors] = useState({});
 
@@ -153,18 +151,6 @@ function Addmembers() {
                                         {errors.linkedin_link}
                                     </p>
                                 )}
-                            </div>
-
-                            <div className="input-group">
-                                <label>Profile Image URL</label>
-
-                                <input
-                                    type="text"
-                                    name="image_path"
-                                    placeholder="Enter image URL (optional)"
-                                    value={formData.image_path}
-                                    onChange={handleChange}
-                                />
                             </div>
 
                             <button

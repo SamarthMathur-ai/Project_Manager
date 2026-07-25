@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import "./Project.css";
-import { Plus, Search } from "lucide-react";
+import { Plus, Search,FolderOpen } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import {fetchProjectsByFilter} from "../api/services/projectService.js"
 
@@ -114,7 +114,9 @@ function Project() {
                   <p>{project.priority}</p>
                 </div>
 
-                <img src={project.image_path} alt="" />
+                <div className="project-icon">
+    <FolderOpen size={72} strokeWidth={1.6} />
+</div>
               </div>
             ))}
           </div>
