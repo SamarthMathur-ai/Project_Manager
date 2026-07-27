@@ -5,7 +5,7 @@
 
 
 import dotenv from 'dotenv';
-const result = dotenv.config({ path: "./server/.env" });
+const result = dotenv.config();
 
 import express from 'express';
 import cors from 'cors';
@@ -42,7 +42,8 @@ app.use('/api/subTaskPage', authenticateToken, subTasksRoutes);
 app.use('/api/dashboardPage', authenticateToken, dashboardRoutes)
 
 
-app.listen(3000, ()=>{
-    console.log("app is listening.");
-})
-// !
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
