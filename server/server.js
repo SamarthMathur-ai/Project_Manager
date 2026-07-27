@@ -5,22 +5,31 @@
 
 
 import dotenv from 'dotenv';
+const result = dotenv.config({ path: "./server/.env" });
+
 import express from 'express';
-import authRoutes from './routes/usersRoute.js'
-import teamMembersRoutes from './routes/teamMembersRoute.js'
-import projectsRoutes from './routes/projectsRoute.js'
-import subTasksRoutes from './routes/subTasksRoute.js'
-import dashboardRoutes from './routes/dashboareRoute.js'
-import authenticateToken from './middleware/authMiddleware.js';
 import cors from 'cors';
-
-
-dotenv.config({ path: './.env' });
 
 const app = express();
 
 app.use(cors()) // ? use when all frontend and backend are on different servers.
 app.use(express.json()); // * to parse json file
+
+
+// Import routes AFTER dotenv has loaded
+const { default: authRoutes } = await import("./routes/usersRoute.js");
+const { default: teamMembersRoutes } = await import("./routes/teamMembersRoute.js");
+const { default: projectsRoutes } = await import("./routes/projectsRoute.js");
+const { default: subTasksRoutes } = await import("./routes/subTasksRoute.js");
+const { default: dashboardRoutes } = await import("./routes/dashboareRoute.js");
+const { default: authenticateToken } = await import("./middleware/authMiddleware.js");
+
+
+if(result.error) {
+    console.error("Failed to load .env:", result.error);
+    process.exit(1);
+}
+
 
 // ! public routes
 app.use('/auth', authRoutes); 
