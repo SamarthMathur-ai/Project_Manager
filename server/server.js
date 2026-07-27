@@ -5,7 +5,7 @@
 
 
 import dotenv from 'dotenv';
-const result = dotenv.config();
+dotenv.config();
 
 import express from 'express';
 import cors from 'cors';
@@ -23,12 +23,6 @@ const { default: projectsRoutes } = await import("./routes/projectsRoute.js");
 const { default: subTasksRoutes } = await import("./routes/subTasksRoute.js");
 const { default: dashboardRoutes } = await import("./routes/dashboareRoute.js");
 const { default: authenticateToken } = await import("./middleware/authMiddleware.js");
-
-
-if(result.error) {
-    console.error("Failed to load .env:", result.error);
-    process.exit(1);
-}
 
 
 // ! public routes
