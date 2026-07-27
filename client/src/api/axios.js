@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: "http://localhost:3000"
+    baseURL: "https://project-manager-0ypp.onrender.com"
 });
 
 
@@ -35,7 +35,7 @@ api.interceptors.response.use(
                 const refreshToken = localStorage.getItem("refreshToken");
 
                 // *2. Call your backend route to get a new access token
-                const response = await axios.post("http://localhost:3000/auth/newRefreshToken", {token: refreshToken});
+                const response = await axios.post("https://project-manager-0ypp.onrender.com/auth/newRefreshToken", {token: refreshToken});
                 const {accessToken} = response.data;
 
                 // *3. Save the new access token
