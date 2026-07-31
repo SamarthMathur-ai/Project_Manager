@@ -23,9 +23,7 @@ function Login() {
         if (!password.trim()) {
             newErrors.password = "Password is required";
         }
-        else if (password.length < 6) {
-            newErrors.password = "Password must be at least 6 characters";
-        }
+        
 
         setErrors(newErrors);
 

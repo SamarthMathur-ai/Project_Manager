@@ -1,4 +1,4 @@
-CREATE DATABASE project_manage;
+CREATE DATABASE IF NOT EXISTS project_manage;
 USE project_manage;
 
 CREATE TABLE user(
@@ -68,6 +68,9 @@ CREATE TABLE subtasks_assignees (
 ALTER TABLE user
 MODIFY COLUMN password VARCHAR(255) NOT NULL;
 
+ALTER TABLE user
+ADD COLUMN refresh_token TEXT;
+
 -- This command adds the composite unique constraint so a single user cannot reuse a project name.
 ALTER TABLE projects
 ADD CONSTRAINT unique_project_per_user UNIQUE (user_id, name);
@@ -91,18 +94,18 @@ VALUES
 -- Alice (User 1) has two team members. Bob (User 2) has one.
 INSERT INTO team_members (name, role, linkedin_link, image_path, user_id) 
 VALUES 
-('Sarah Connor', 'Frontend Developer', 'https://linkedin.com/in/sarahc', '/images/sarah.jpg', 1),
-('John Smith', 'Backend Developer', 'https://linkedin.com/in/johns', '/images/john.jpg', 1),
-('Emily Davis', 'UI/UX Designer', 'https://linkedin.com/in/emilyd', '/images/emily.jpg', 2);
+('Sarah Connor', 'Frontend Developer', 'https://linkedin.com/in/sarahc', 'default-avatar.jpg', 1),
+('John Smith', 'Backend Developer', 'https://linkedin.com/in/johns', 'default-avatar.jpg', 1),
+('Emily Davis', 'UI/UX Designer', 'https://linkedin.com/in/emilyd', 'default-avatar.jpg', 2);
 
 -- 3. Insert Projects
 -- Notice how Alice (User 1) and Bob (User 2) both have a project named "Website Redesign".
 -- This perfectly tests your new scoped uniqueness constraint!
 INSERT INTO projects (name, image_path, starting_date, end_date, status, priority, user_id) 
 VALUES 
-('Website Redesign', '/images/proj1.jpg', '2026-06-01', '2026-08-15', 'Ongoing', 'High', 1),
+('Website Redesign', NULL, '2026-06-01', '2026-08-15', 'Ongoing', 'High', 1),
 ('Mobile App Launch', NULL, '2026-07-01', '2026-12-01', 'Ongoing', 'Mid', 1),
-('Website Redesign', '/images/proj3.jpg', '2026-01-10', '2026-03-20', 'Completed', 'Low', 2);
+('Website Redesign', NULL, '2026-01-10', '2026-03-20', 'Completed', 'Low', 2);
 
 -- 4. Insert Tasks (The visual buckets)
 -- Assigning buckets to Alice's "Website Redesign" (Project 1) and Bob's (Project 3)

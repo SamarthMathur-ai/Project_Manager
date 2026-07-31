@@ -25,7 +25,7 @@ const showSubtasks = async (projectId) => {
             sb.start_date, 
             sb.end_date, 
             sb.status
-        FROM Subtasks sb
+        FROM subtasks sb
         JOIN tasks t
         ON sb.task_id = t.id
         JOIN projects p
@@ -106,7 +106,7 @@ const addTeamSub = async (subTaskId, teamMemberId) => {
 // !5.5 Deleting team member from subtasks // done
 const delTeamSub = async (subTaskId, teamMemberId) => {
     const sql = `
-        DELETE FROM subtasks_asSignees
+        DELETE FROM subtasks_assignees
         WHERE subtask_id = ? AND team_member_id = ?
     `
     const [table] = await db.query(sql,[
@@ -119,7 +119,7 @@ const delTeamSub = async (subTaskId, teamMemberId) => {
 // !6. Adding Subtasks // done
 const addSubTask = async (name, taskId, startDate, endDate, status) => {
     const sql = `
-        INSERT INTO Subtasks (name, task_id, start_date, end_date, status)
+        INSERT INTO subtasks (name, task_id, start_date, end_date, status)
         VALUES
         (?,?,?,?,?)
     `
@@ -139,7 +139,7 @@ const addSubTask = async (name, taskId, startDate, endDate, status) => {
 // !7. Deleting subtask // done
 const delSubTask = async (subtaskId) => {
     const sql = `
-        DELETE FROM Subtasks
+        DELETE FROM subtasks
         WHERE id = ?
     `
  
@@ -153,7 +153,7 @@ const delSubTask = async (subtaskId) => {
 // !8. Changing status of subtask // done
 const chStSub = async (subTaskId, status) => {
     const sql = `
-        UPDATE Subtasks
+        UPDATE subtasks
         SET status = ?
         WHERE id = ?
     `
