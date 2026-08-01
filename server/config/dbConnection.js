@@ -45,7 +45,7 @@ const db = mysql.createPool({ // * connection pool is better as it can handle mu
     waitForConnections: true, // * if there are several connection and  if there is no waithing the waiting file or which is coming after all the slots are already filled will throw an error
     connectionLimit: 10, // * maximum number of simultaneous database connection the 11th connection has to wait until one of the 10 becomes free
     queueLimit: 0 // * what can be the queue limit if it is set to 0 there can be an infinite list.
-})
+});
 (async () => {
     try {
       const conn = await db.getConnection();
