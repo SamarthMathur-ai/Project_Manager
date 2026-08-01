@@ -38,7 +38,7 @@ const db = mysql.createPool({ // * connection pool is better as it can handle mu
     database: process.env.DB_NAME,
 
     ssl: {
-        ca: fs.readFileSync(caPath),
+        rejectUnauthorized: false,
     },
 
 

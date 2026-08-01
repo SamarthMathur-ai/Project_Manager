@@ -5,8 +5,30 @@
 
 
 import dotenv from 'dotenv';
-dotenv.config();
+import path from "path";
+import { fileURLToPath } from "url";
 
+// Get the absolute path of the current file
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Try loading the local .env file
+const result = dotenv.config({
+    path: path.join(__dirname, ".env"),
+});
+
+// If .env is missing, that's okay on Render because it provides
+// environment variables directly.
+if (result.error && !process.env.RENDER) {
+    console.error("Failed to load local .env:", result.error);
+}
+
+
+console.log("DB_HOST:", process.env.DB_HOST);
+console.log("DB_PORT:", process.env.DB_PORT);
+console.log("DB_USER:", process.env.DB_USER);
+console.log("DB_PASSWORD:", process.env.DB_PASSWORD ? "SET" : "NOT SET");
+console.log("DB_NAME:", process.env.DB_NAME);
 import express from 'express';
 import cors from 'cors';
 
