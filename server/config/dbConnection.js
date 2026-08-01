@@ -29,7 +29,7 @@ const caPath = path.resolve(__dirname, "../ca.pem");
 // console.log("Attempting to load .env from:", envPath);
 // console.log("DB_USER found:", process.env.DB_USER ? "YES" : "NO (Still Undefined)");
 // console.log("---------------------------------");
-console.log("DB_NAME:", process.env.DB_NAME);
+
 const db = mysql.createPool({ // * connection pool is better as it can handle multiple connection at the same time.
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT),
@@ -46,5 +46,13 @@ const db = mysql.createPool({ // * connection pool is better as it can handle mu
     connectionLimit: 10, // * maximum number of simultaneous database connection the 11th connection has to wait until one of the 10 becomes free
     queueLimit: 0 // * what can be the queue limit if it is set to 0 there can be an infinite list.
 })
-
+(async () => {
+    try {
+      const conn = await db.getConnection();
+      console.log("✅ Connected to Aiven");
+      conn.release();
+    } catch (err) {
+      console.error("❌ Connection failed:", err);
+    }
+  })();
 export default db;
